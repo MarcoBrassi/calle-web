@@ -1,0 +1,28 @@
+---
+import "../styles/header.scss";
+const { activePage } = Astro.props;
+---
+
+<header class="header">
+    <div class="header__logo">
+        <a href="/">
+        <img src="/icons/calle-icon.svg" alt="Calle" class="header__logo-img"/>
+        </a>
+    </div>
+
+    <nav class="header__nav">
+        <ul class="header__menu">
+        <li>
+            <a href="/projects" class={activePage === "projects" ? "active" : ""}>projects</a>
+        </li>
+
+        <li>
+            <a href="/about" class={activePage === "about" ? "active" : ""}>about</a>
+        </li>
+
+        <li>
+            <a href="/contact" class={activePage === "contact" ? "active" : ""}>contact</a>
+        </li>
+        </ul>
+    </nav>
+</header>

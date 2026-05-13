@@ -1,0 +1,105 @@
+@use "./variables" as *;
+
+@font-face {
+    font-family: "Romie";
+    src: url("/fonts/Romie.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "NaN Jaune";
+    src: url("/fonts/NaNJaune-Thin.woff2") format("woff2");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* HEADINGS */
+
+h1 {
+    font-family: $font-secondary;
+    font-weight: 100;
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+h2 {
+    font-family: $font-primary;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 46px;
+    letter-spacing: 0.62px;
+}
+
+h3 {
+    font-family: $font-primary;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 34px;
+    letter-spacing: 0px;
+}
+
+/* TEXT */
+
+.large-text {
+    font-family: $font-primary;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 1.1;
+    letter-spacing: 0;
+}
+
+.small-text {
+    font-family: $font-primary;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.65;
+    letter-spacing: 0;
+}
+
+.medium-text {
+    font-family: $font-primary;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.36;
+    letter-spacing: 0;
+}
+
+/* CONTENT */
+
+body {
+    background-color: #FBFBFB;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1440px;
+
+    margin: 0 auto;
+}
+
+/* LINKS */
+
+a {
+    text-decoration: none;
+    color: inherit;
+
+    &:visited {
+        color: inherit;
+    }
+}
+
+/* SECTIONS */
+
+section {
+    width: 100%;
+    max-width: 100rem;
+    padding: 0 2rem;
+}

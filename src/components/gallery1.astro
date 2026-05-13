@@ -1,0 +1,16 @@
+---
+import "../styles/gallery1.scss";
+import { galleryItems } from "../js/gallery1.js";
+---
+
+<section class="gallery1">
+    {
+        galleryItems.map((item) => (
+            <article>
+            <img src={item.image} alt={item.title} />
+
+            <h3>{item.desc}</h3>
+            </article>
+        ))
+    }
+</section>

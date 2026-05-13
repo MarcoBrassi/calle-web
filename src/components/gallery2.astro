@@ -1,0 +1,32 @@
+---
+import "../styles/gallery2.scss";
+import { gallery2Items } from "../js/gallery2.js";
+---
+
+<section class="gallery2">
+    {
+        gallery2Items.map((item) => (
+        <article class={`gallery2__item gallery2__item--${item.size}`}>
+
+            {
+            item.type === "image" ? (
+                <img
+                src={item.src}
+                alt={item.title}
+                />
+            ) : (
+                <video
+                autoplay
+                muted
+                loop
+                playsinline
+                >
+                <source src={item.src} type="video/mp4" />
+                </video>
+            )
+            }
+
+        </article>
+        ))
+    }
+</section>
