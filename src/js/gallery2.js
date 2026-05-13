@@ -1,3 +1,4 @@
+/*
 export const gallery2Items = [
     {
         type: "video",
@@ -48,3 +49,4 @@ export const gallery2Items = [
         size: "small",
     },
 ];
+*/

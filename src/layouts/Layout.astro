@@ -15,7 +15,7 @@ const { activePage } = Astro.props;
 	</head>
 
 	<body>
-		<Header activePage={activePage}/>
+		<Header activePage={activePage} isHome={activePage === "home"}/>
 
 		<main>
 			<slot />

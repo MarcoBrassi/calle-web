@@ -1,9 +1,9 @@
 ---
 import "../styles/header.scss";
-const { activePage } = Astro.props;
+const { activePage, isHome } = Astro.props;
 ---
 
-<header class="header">
+<header class={`header ${isHome ? "header--home" : ""}`}>
     <div class="header__logo">
         <a href="/">
         <img src="/icons/calle-icon.svg" alt="Calle" class="header__logo-img"/>
@@ -26,3 +26,5 @@ const { activePage } = Astro.props;
         </ul>
     </nav>
 </header>
+
+<script src="/js/header.js" is:inline></script>
