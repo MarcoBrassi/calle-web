@@ -1,4 +1,3 @@
-/*
 export const galleryItems = [
     {
         image: "/media/img1.jpg",
@@ -35,4 +34,3 @@ export const galleryItems = [
         desc: "Lasserie BParis SS24"
     },
 ];
-*/
