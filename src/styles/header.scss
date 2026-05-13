@@ -1,41 +1,52 @@
 @use "./variables" as *;
 
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
     padding: 2rem 4rem;
     height: 45px;
+
+    background: #fbfbfb;
+}
+
+/* HOME */
+.header--home {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    background: transparent;
 
     transition:
         background-color 0.4s ease,
         box-shadow 0.4s ease,
         backdrop-filter 0.4s ease,
         transform 0.4s ease;
-}
-
-.header--home {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 10;
 
     .header__menu a {
         color: white;
+        transition: color 0.4s ease;
 
         &::after {
-            background: white;
+        background: white;
+        transition:
+            transform 0.3s ease,
+            background-color 0.4s ease;
         }
     }
 
     .header__logo-img {
         filter: brightness(0) invert(1);
+        transition: filter 0.4s ease;
     }
 }
 
-.header--scrolled {
+.header--home.header--scrolled {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
 
@@ -43,26 +54,25 @@
         color: black;
 
         &::after {
-            background: black;
+        background: black;
         }
     }
 
-    .header__logo-img{
+    .header__logo-img {
         filter: none;
     }
-}
+    }
 
-.header__logo {
+    .header__logo {
     padding-right: 4rem;
-}
+    }
 
-.header__logo-img {
+    .header__logo-img {
     width: auto;
     height: 25px;
-    transition: filter 0.4s ease;
-}
+    }
 
-.header__nav {
+    .header__nav {
     display: flex;
     justify-content: flex-end;
 }
@@ -72,7 +82,6 @@
     align-items: center;
     gap: 4rem;
     list-style: none;
-    
 
     a {
         position: relative;
@@ -80,36 +89,27 @@
         font-weight: 100;
         font-size: 25px;
         line-height: 1.3;
-
         color: black;
         text-decoration: none;
 
-        transition: color 0.4s ease;
-
-
         &::after {
-            content: "";
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
 
-            position: absolute;
-            left: 0;
-            bottom: -4px;
+        width: 100%;
+        height: 2px;
+        background: black;
 
-            width: 100%;
-            height: 2px;
-
-            background: black;
-
-            transform: scaleX(0);
-            transform-origin: left;
-
-            transition:
-                transform 0.3s ease,
-                background-color 0.4s ease;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
         }
 
         &:hover::after,
         &.active::after {
-            transform: scaleX(1);
+        transform: scaleX(1);
         }
     }
 }
