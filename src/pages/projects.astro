@@ -1,7 +1,35 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import "../styles/projects.scss";
 ---
 
 <Layout activePage="projects">
+
+    <section>
+        <div class="project__grid">
+            <img src="/media/images/webp/AndreaCalle_2.webp" alt="" class="project__grid--medium">
+            <img src="/media/images/webp/AndreaCalle_55.webp" alt="" class="project__grid--large">
+            <img src="/media/images/webp/AndreaCalle_39.webp" alt="" class="project__grid--small">
+            <div class="project__grid--small">
+                <div>
+                    <h2>FCB</h2>
+                    <h3>Campaing 205</h3>
+                </div>
+                <div>
+                    <ul>
+                        <li class="small-text">Consultoría creativa</li>
+                        <li class="small-text">Scouting</li>
+                        <li class="small-text">Casting</li>
+                        <li class="small-text">Producción</li>
+                        <li class="small-text">Dir. Arte</li>
+                    </ul>
+                </div>
+            </div>
+            <video src="/media/video2.mp4" class="project__grid--medium" autoplay muted loop playsinline></video>
+            <img src="/media/images/webp/AndreaCalle_136.webp" alt="" class="project__grid--large">
+            <img src="/media/images/webp/AndreaCalle_23.webp" alt="" class="project__grid--small">
+            <img src="/media/images/webp/AndreaCalle_43.webp" alt="" class="project__grid--small">
+        </div>
+    </section>
 	
 </Layout>
