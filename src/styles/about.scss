@@ -1,0 +1,64 @@
+@use "./variables" as *;
+
+.about__intro{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    align-items: center;
+
+    .about__logo-img {
+        grid-column: 1;
+    }
+
+    .about__intro-img {
+        grid-column: 2;
+    }
+
+    h2 {
+        grid-column: 3 / 5;
+        display: block;
+        text-align: end;
+    }
+
+}
+
+.about__intro-text{
+    display: block;
+    margin-top: -5rem;
+}
+
+.about__description {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: -5rem;
+    gap: 3rem;
+}
+
+.about__clients {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    h2 {
+        font-size: 80px;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        li {
+            margin-top: -1.5rem;
+            color: rgb(204, 204, 204);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        li:hover {
+            color: black;
+            transform: translateX(4px);
+            cursor: pointer;
+        }
+    }
+}

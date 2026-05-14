@@ -1,7 +1,67 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import "../styles/about.scss";
 ---
 
 <Layout activePage="about">
-	
+
+	<section class="container-general">
+        <div class="about__intro">
+            <img
+			src="/icons/calle-icon.svg"
+			alt="Andrea Calle"
+			class="about__logo-img"
+		    />
+            <img src="/media/images/webp/AndreaCalle_31.webp" class="about__intro-img">
+            <h2>Pequeñas producciones, grandes ideas</h2>
+        </div>
+        <div class="about__intro-text">
+            <p class="large-text">
+            Es una productora service que surge de la pasión 
+            por el mundo audiovisual y se desarrolla dando servicios 
+            de producción creativa a proyectos de moda y publicidad.
+            </p>
+        </div>
+    </section>
+
+    <section class="container-general">
+        <div class="about__description">
+            <p class="small-text">
+                Desarrollamos grandes 
+                ideas con producciones adaptadas a cada proyecto, con equipos fluidos 
+                y aprovechando al máximo los recursos de cada cliente.
+            </p>
+            <p class="small-text">
+                Nuestra misión es abordar cada proyecto de forma personalizada, cercana 
+                y mimando hasta el último detalle para conseguir contenido original y de calidad. 
+            </p>
+            <p class="small-text">
+                Nuestra filosofía es que tanto el cliente como
+                el equipo queden satisfechos con el proceso
+                y resultado.
+            </p>
+        </div>
+    </section>
+    
+    <section class="container-general">
+        <div class="about__clients">
+            <h2>Clients</h2>
+            <ul class="about__clients-list">
+                <li class="medium-text">Dust, </li>
+                <li class="medium-text">Calvin Klein, </li>
+                <li class="medium-text">Commas, </li>
+                <li class="medium-text">Cottet, </li>
+                <li class="medium-text">Fila, </li>
+                <li class="medium-text">Lasserre, </li>
+                <li class="medium-text">Mascaró, </li>
+                <li class="medium-text">Occident, </li>
+                <li class="medium-text">Outsides Division, </li>
+                <li class="medium-text">Pretty Ballerinas, </li>
+                <li class="medium-text">Privata, </li>
+                <li class="medium-text">Reebok, </li>
+                <li class="medium-text">Vance Joy</li>
+            </ul>
+        </div>
+    </section>
+
 </Layout>
