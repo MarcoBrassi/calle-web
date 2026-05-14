@@ -1,7 +1,36 @@
 ---
 import "../../styles/galleries/gallery_2col.scss";
+
+const {
+    items = [],
+    title = "",
+    author = "",
+    description = "",
+} = Astro.props;
 ---
 
-<section class="container-general">
+<section class="gallery2col">
+    <div class="gallery2col__grid">
+        {
+        items.map((item) => (
+            <article class="gallery2col__item">
+            {
+                item.type === "video" ? (
+                <video autoplay muted loop playsinline>
+                    <source src={item.src} type="video/mp4" />
+                </video>
+                ) : (
+                <img src={item.src} alt={item.alt || ""} />
+                )
+            }
+            </article>
+        ))
+        }
+    </div>
 
+    <div class="gallery2col__info">
+        {title && <h2>{title}</h2>}
+        {author && <p class="gallery2col__author">{author}</p>}
+        {description && <p class="gallery2col__description">{description}</p>}
+    </div>
 </section>
