@@ -1,35 +1,49 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import "../styles/pages/projects.scss";
+import { sanityClient } from 'sanity:client'
+import Layout from '../layouts/Layout.astro'
+import '../styles/pages/projects.scss'
+
+type Project = {
+    title: string
+    campaign?: string
+    slug: string
+    coverImageUrl?: string
+    services?: string[]
+}
+
+const projects = await sanityClient.fetch<Project[]>(`
+    *[_type == "project" && defined(slug.current)] | order(order asc) {
+        title,
+        campaign,
+        "slug": slug.current,
+        services,
+        "coverImageUrl": coverImage.asset->url
+    }
+`)
 ---
 
 <Layout activePage="projects">
+    <section class="projects-index">
+        <div class="projects-index__grid">
+            {projects.map((project) => (
+                <a href={`/projects/${project.slug}`} class="project-card">
+                    {project.coverImageUrl && (
+                        <img
+                            src={project.coverImageUrl}
+                            alt={project.title}
+                            class="project-card__image"
+                        />
+                    )}
 
-    <section>
-        <div class="project__grid">
-            <img src="/media/images/webp/AndreaCalle07.webp" alt="" class="project__grid--medium">
-            <img src="/media/images/webp/AndreaCalle16.webp" alt="" class="project__grid--large">
-            <img src="/media/images/webp/AndreaCalle13.webp" alt="" class="project__grid--small">
-            <div class="project__grid--small">
-                <div>
-                    <h2>FCB</h2>
-                    <h3>Campaing 205</h3>
-                </div>
-                <div>
-                    <ul>
-                        <li class="small-text">Consultoría creativa</li>
-                        <li class="small-text">Scouting</li>
-                        <li class="small-text">Casting</li>
-                        <li class="small-text">Producción</li>
-                        <li class="small-text">Dir. Arte</li>
-                    </ul>
-                </div>
-            </div>
-            <video src="/media/video2.mp4" class="project__grid--medium" autoplay muted loop playsinline></video>
-            <img src="/media/images/webp/AndreaCalle03.webp" alt="" class="project__grid--large">
-            <img src="/media/images/webp/AndreaCalle09.webp" alt="" class="project__grid--small">
-            <img src="/media/images/webp/AndreaCalle17.webp" alt="" class="project__grid--small">
+                    <div class="project-card__info">
+                        <h2>{project.title}</h2>
+                        {project.campaign && <p>{project.campaign}</p>}
+                        {project.services && project.services.length > 0 && (
+                            <p>{project.services.join(", ")}</p>
+                        )}
+                    </div>
+                </a>
+            ))}
         </div>
     </section>
-	
 </Layout>

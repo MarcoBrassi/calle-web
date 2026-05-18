@@ -1,4 +1,5 @@
 export const galleryItems = [
+    // Datos de prueba desactivados.
     // {
     //     image: "/media/img1.jpg",
     //     title: "Pretty Ballerinas",

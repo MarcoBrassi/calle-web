@@ -1,0 +1,38 @@
+
+> c-users-lydia-calle-web@0.0.1 dev
+> astro dev --host 127.0.0.1
+
+[vite] connected.
+[2m14:29:31[22m [34m[types][39m Generated [2m2ms[22m
+[42m[1m astro [22m[49m [32mv6.3.1[39m [2mready in[22m 1404 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4321/[39m
+[2m14:29:32[22m [32mwatching for file changes...[39m
+[2m14:29:40[22m [34m[200][39m /projects/dust [2m19ms[22m
+[2m14:29:49[22m [34m[200][39m /projects/dust [2m2ms[22m
+[2m14:29:49[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m4ms[22m
+[2m14:29:49[22m [33m[404][39m /fonts/Romie.woff2 [2m2ms[22m
+[2m14:29:57[22m [34m[200][39m /projects/dust [2m2ms[22m
+[2m14:30:46[22m [34m[200][39m /projects/dust [2m10ms[22m
+[2m14:30:46[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m1ms[22m
+[2m14:30:46[22m [33m[404][39m /fonts/Romie.woff2 [2m2ms[22m
+[2m14:30:54[22m [34m[200][39m /projects/dust [2m4ms[22m
+[2m14:30:54[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m3ms[22m
+[2m14:30:54[22m [33m[404][39m /fonts/Romie.woff2 [2m2ms[22m
+[2m16:23:26[22m [34m[200][39m /projects/dust [2m9ms[22m
+[2m16:23:26[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m2ms[22m
+[2m16:23:26[22m [33m[404][39m /fonts/Romie.woff2 [2m3ms[22m
+[2m16:25:30[22m [34m[200][39m /projects/dust [2m2ms[22m
+[2m16:25:30[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m1ms[22m
+[2m16:25:30[22m [33m[404][39m /fonts/Romie.woff2 [2m1ms[22m
+[2m16:26:12[22m [34m[200][39m /projects/dust [2m1ms[22m
+[2m16:26:12[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m1ms[22m
+[2m16:26:12[22m [33m[404][39m /fonts/Romie.woff2 [2m1ms[22m
+[2m16:30:45[22m [34m[watch][39m studio/.sanity/runtime/index.html
+[2m16:31:30[22m [34m[200][39m /projects/dust [2m3ms[22m
+[2m16:31:30[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m1ms[22m
+[2m16:31:30[22m [33m[404][39m /fonts/Romie.woff2 [2m1ms[22m
+[2m16:31:56[22m [34m[200][39m /projects/dust [2m3ms[22m
+[2m16:31:56[22m [33m[404][39m /fonts/NaNJaune-Thin.woff2 [2m1ms[22m
+[2m16:31:56[22m [33m[404][39m /fonts/Romie.woff2 [2m1ms[22m
+[2m16:32:13[22m [34m[200][39m /projects/dust [2m2ms[22m
+[2m16:32:13[22m [33m[404][39m /fonts/Romie.woff2 [2m1ms[22m

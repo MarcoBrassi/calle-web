@@ -1,36 +1,68 @@
 ---
 import "../../styles/galleries/gallery_2col.scss";
 
+type GalleryItem = {
+    type: "image" | "video";
+    src: string;
+    alt?: string;
+};
+
+interface Props {
+    items?: GalleryItem[];
+    title?: string;
+    campaign?: string;
+    services?: string[];
+    description?: string;
+}
+
 const {
     items = [],
     title = "",
-    author = "",
+    campaign = "",
+    services = [],
     description = "",
 } = Astro.props;
+
+const servicesText = services.join(", ");
+const columns = [
+    items.filter((_, index) => index % 2 === 0),
+    items.filter((_, index) => index % 2 !== 0),
+];
 ---
 
 <section class="gallery2col">
-    <div class="gallery2col__grid">
+    <header class="project-info project-info--overlay">
+        {title && <h2>{title}</h2>}
+        {campaign && <p class="project-info__campaign">{campaign}</p>}
+        {servicesText && <p class="project-info__services">{servicesText}</p>}
+        {description && <p class="project-info__description">{description}</p>}
+    </header>
+
+    <div class="project-gallery project-gallery--two-columns">
         {
-        items.map((item) => (
-            <article class="gallery2col__item">
-            {
-                item.type === "video" ? (
-                <video autoplay muted loop playsinline>
-                    <source src={item.src} type="video/mp4" />
-                </video>
-                ) : (
-                <img src={item.src} alt={item.alt || ""} />
-                )
-            }
-            </article>
+        columns.map((column, columnIndex) => (
+            <div class="project-gallery__column">
+                {
+                column.map((item, itemIndex) => {
+                    const originalIndex = itemIndex * 2 + columnIndex;
+
+                    return (
+                        <article class={`project-gallery__item ${originalIndex === 0 ? "project-gallery__item--cover" : ""}`}>
+                        {
+                            item.type === "video" ? (
+                            <video autoplay muted loop playsinline>
+                                <source src={item.src} type="video/mp4" />
+                            </video>
+                            ) : (
+                            <img src={item.src} alt={item.alt || ""} />
+                            )
+                        }
+                        </article>
+                    );
+                })
+                }
+            </div>
         ))
         }
-    </div>
-
-    <div class="gallery2col__info">
-        {title && <h2>{title}</h2>}
-        {author && <p class="gallery2col__author">{author}</p>}
-        {description && <p class="gallery2col__description">{description}</p>}
     </div>
 </section>

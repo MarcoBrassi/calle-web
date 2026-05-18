@@ -1,14 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Gallery2Col from "../../components/galleries/gallery_2col.astro";
-import { gallery2ColData } from "../../data/gallery2col";
+import { gallery2ColData } from "../../data/gallery2col.js";
 ---
 
 <Layout activePage="projects">
     <Gallery2Col
         items={gallery2ColData.items}
         title={gallery2ColData.title}
-        author={gallery2ColData.author}
+        campaign={gallery2ColData.campaign}
         description={gallery2ColData.description}
     />
 </Layout>

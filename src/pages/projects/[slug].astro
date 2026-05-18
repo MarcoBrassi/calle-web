@@ -1,0 +1,70 @@
+---
+import { sanityClient } from 'sanity:client'
+import Layout from '../../layouts/Layout.astro'
+import Gallery2Col from '../../components/galleries/gallery_2col.astro'
+
+type GalleryItem = {
+    type: 'image'
+    src: string
+    alt?: string
+    size?: 'small' | 'medium' | 'large'
+}
+
+type Project = {
+    title: string
+    campaign?: string
+    slug: string
+    services?: string[]
+    description?: string
+    layout?: 'twoColumns' | 'fourColumns' | 'mosaic'
+    coverImageUrl?: string
+    gallery?: GalleryItem[]
+}
+
+export async function getStaticPaths() {
+    const projects = await sanityClient.fetch<Project[]>(`
+        *[_type == "project" && defined(slug.current)] | order(order asc) {
+            title,
+            campaign,
+            "slug": slug.current,
+            services,
+            description,
+            layout,
+            "coverImageUrl": coverImage.asset->url,
+            gallery[] {
+                "type": "image",
+                "src": image.asset->url,
+                alt,
+                size
+            }
+        }
+    `)
+
+    return projects.map((project) => ({
+        params: { slug: project.slug },
+        props: { project },
+    }))
+}
+
+const { project } = Astro.props as { project: Project }
+const coverImage = project.coverImageUrl
+    ? [{ type: 'image' as const, src: project.coverImageUrl, alt: project.title }]
+    : []
+const galleryWithoutCover = project.gallery?.filter((item) =>
+    item.src && item.src !== project.coverImageUrl
+) ?? []
+const galleryItems = [
+    ...coverImage,
+    ...galleryWithoutCover,
+]
+---
+
+<Layout activePage="projects">
+    <Gallery2Col
+        items={galleryItems}
+        title={project.title}
+        campaign={project.campaign}
+        services={project.services}
+        description={project.description}
+    />
+</Layout>

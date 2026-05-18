@@ -1,0 +1,37 @@
+---
+import { sanityClient } from 'sanity:client'
+
+type Project = {
+    _id: string
+    title: string
+    campaign?: string
+    slug: string
+    services?: string[]
+    description?: string
+}
+
+const projects = await sanityClient.fetch<Project[]>(`
+    *[_type == "project"] | order(order asc) {
+        _id,
+        title,
+        campaign,
+        "slug": slug.current,
+        services,
+        description
+    }
+`)
+---
+
+<h1>Prueba Sanity</h1>
+
+<ul>
+    {projects.map((project) => (
+        <li>
+        <strong>{project.title}</strong>
+        <br />
+        Campaña: {project.campaign}
+        <br />
+        URL: /projects/{project.slug}
+        </li>
+    ))}
+</ul>

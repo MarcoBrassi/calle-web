@@ -1,5 +1,8 @@
 // !! PENDIENTE CAMBIAR TITLEs
 
+export const gallery2Items = [];
+
+/*
 export const gallery2Items = [
     {
         type: "image",
@@ -50,3 +53,4 @@ export const gallery2Items = [
         size: "small",
     },
 ];
+*/

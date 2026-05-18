@@ -12,7 +12,14 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@sanity/astro": "^3.4.0",
+    "@sanity/client": "^7.22.0",
     "astro": "^6.3.1",
-    "sass": "^1.99.0"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-is": "^19.2.6",
+    "sanity": "^5.25.1",
+    "sass": "^1.99.0",
+    "styled-components": "^6.4.1"
   }
 }
