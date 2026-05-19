@@ -4,6 +4,7 @@
     position: relative;
     width: 100%;
     max-width: 100rem;
+    padding: 0 2rem;
 }
 
 .project-info {
@@ -23,7 +24,6 @@
     column-gap: 2rem;
 
     width: 100%;
-    padding: 0 2rem;
 
     h2 {
         grid-column: 1 / 2;

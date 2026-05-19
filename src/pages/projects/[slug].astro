@@ -2,9 +2,10 @@
 import { sanityClient } from 'sanity:client'
 import Layout from '../../layouts/Layout.astro'
 import Gallery2Col from '../../components/galleries/gallery_2col.astro'
+import Gallery4Col from '../../components/galleries/gallery_4col.astro'
 
 type GalleryItem = {
-    type: 'image'
+    type: 'image' | 'video'
     src: string
     alt?: string
     size?: 'small' | 'medium' | 'large'
@@ -17,7 +18,7 @@ type Project = {
     services?: string[]
     description?: string
     layout?: 'twoColumns' | 'fourColumns' | 'mosaic'
-    coverImageUrl?: string
+    coverMedia?: GalleryItem
     gallery?: GalleryItem[]
 }
 
@@ -30,7 +31,23 @@ export async function getStaticPaths() {
             services,
             description,
             layout,
-            "coverImageUrl": coverImage.asset->url,
+            "coverMedia": select(
+                coverMedia.mediaType == "video" && defined(coverMedia.video.asset) => {
+                    "type": "video",
+                    "src": coverMedia.video.asset->url,
+                    "alt": title
+                },
+                coverMedia.mediaType == "image" && defined(coverMedia.image.asset) => {
+                    "type": "image",
+                    "src": coverMedia.image.asset->url,
+                    "alt": title
+                },
+                defined(coverImage.asset) => {
+                    "type": "image",
+                    "src": coverImage.asset->url,
+                    "alt": title
+                }
+            ),
             gallery[] {
                 "type": "image",
                 "src": image.asset->url,
@@ -47,24 +64,36 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props as { project: Project }
-const coverImage = project.coverImageUrl
-    ? [{ type: 'image' as const, src: project.coverImageUrl, alt: project.title }]
+const coverMedia = project.coverMedia?.src
+    ? [project.coverMedia]
     : []
 const galleryWithoutCover = project.gallery?.filter((item) =>
-    item.src && item.src !== project.coverImageUrl
+    item.src && item.src !== project.coverMedia?.src
 ) ?? []
 const galleryItems = [
-    ...coverImage,
+    ...coverMedia,
     ...galleryWithoutCover,
 ]
 ---
 
 <Layout activePage="projects">
-    <Gallery2Col
-        items={galleryItems}
-        title={project.title}
-        campaign={project.campaign}
-        services={project.services}
-        description={project.description}
-    />
+    {
+        project.layout === 'fourColumns' ? (
+            <Gallery4Col
+                items={galleryItems}
+                title={project.title}
+                campaign={project.campaign}
+                services={project.services}
+                description={project.description}
+            />
+        ) : (
+            <Gallery2Col
+                items={galleryItems}
+                title={project.title}
+                campaign={project.campaign}
+                services={project.services}
+                description={project.description}
+            />
+        )
+    }
 </Layout>

@@ -57,12 +57,54 @@ export const projectType = defineType({
         }),
 
         defineField({
+        name: 'coverMedia',
+        title: 'Medio principal',
+        type: 'object',
+        fields: [
+            defineField({
+            name: 'mediaType',
+            title: 'Tipo de medio',
+            type: 'string',
+            initialValue: 'image',
+            options: {
+                list: [
+                {title: 'Imagen', value: 'image'},
+                {title: 'Vídeo', value: 'video'},
+                ],
+            },
+            validation: (rule) => rule.required(),
+            }),
+
+            defineField({
+            name: 'image',
+            title: 'Imagen',
+            type: 'image',
+            options: {
+                hotspot: true,
+            },
+            hidden: ({parent}) => parent?.mediaType !== 'image',
+            }),
+
+            defineField({
+            name: 'video',
+            title: 'Vídeo',
+            type: 'file',
+            options: {
+                accept: 'video/*',
+            },
+            hidden: ({parent}) => parent?.mediaType !== 'video',
+            }),
+        ],
+        }),
+
+        defineField({
         name: 'coverImage',
-        title: 'Imagen principal',
+        title: 'Imagen principal antigua',
         type: 'image',
         options: {
             hotspot: true,
         },
+        hidden: true,
         }),
 
         defineField({
