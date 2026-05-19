@@ -3,12 +3,19 @@ import { sanityClient } from 'sanity:client'
 import Layout from '../../layouts/Layout.astro'
 import Gallery2Col from '../../components/galleries/gallery_2col.astro'
 import Gallery4Col from '../../components/galleries/gallery_4col.astro'
+import GalleryMosaic from '../../components/galleries/gallery_mosaic.astro'
 
 type GalleryItem = {
     type: 'image' | 'video'
     src: string
     alt?: string
-    size?: 'small' | 'medium' | 'large'
+    size?: 'small' | 'medium' | 'large' | 'normal' | 'tall' | 'wide'
+}
+
+type GalleryBlock = {
+    blockType: 'stackedFull' | 'threeColumns' | 'dynamicTwoColumns' | 'fullWidth'
+    title?: string
+    items?: GalleryItem[]
 }
 
 type Project = {
@@ -20,6 +27,7 @@ type Project = {
     layout?: 'twoColumns' | 'fourColumns' | 'mosaic'
     coverMedia?: GalleryItem
     gallery?: GalleryItem[]
+    galleryBlocks?: GalleryBlock[]
 }
 
 export async function getStaticPaths() {
@@ -53,6 +61,19 @@ export async function getStaticPaths() {
                 "src": image.asset->url,
                 alt,
                 size
+            },
+            galleryBlocks[] {
+                blockType,
+                title,
+                items[] {
+                    "type": mediaType,
+                    "src": select(
+                        mediaType == "video" => video.asset->url,
+                        image.asset->url
+                    ),
+                    alt,
+                    size
+                }
             }
         }
     `)
@@ -78,7 +99,16 @@ const galleryItems = [
 
 <Layout activePage="projects">
     {
-        project.layout === 'fourColumns' ? (
+        project.layout === 'mosaic' ? (
+            <GalleryMosaic
+                coverMedia={project.coverMedia}
+                blocks={project.galleryBlocks}
+                title={project.title}
+                campaign={project.campaign}
+                services={project.services}
+                description={project.description}
+            />
+        ) : project.layout === 'fourColumns' ? (
             <Gallery4Col
                 items={galleryItems}
                 title={project.title}

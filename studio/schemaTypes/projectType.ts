@@ -111,11 +111,20 @@ export const projectType = defineType({
         name: 'gallery',
         title: 'Galería',
         type: 'array',
+        hidden: ({document}) => document?.layout === 'mosaic',
         validation: (rule) =>
             rule
-            .required()
-            .min(5)
-            .error('Sube al menos 5 imágenes para publicar la galería.'),
+            .custom((value, context) => {
+                if (context.document?.layout === 'mosaic') {
+                return true
+                }
+
+                if (!value || value.length < 5) {
+                return 'Sube al menos 5 imágenes para publicar la galería.'
+                }
+
+                return true
+            }),
         of: [
             defineArrayMember({
             name: 'galleryImage',
@@ -150,6 +159,125 @@ export const projectType = defineType({
                     {title: 'Grande', value: 'large'},
                     ],
                 },
+                }),
+            ],
+            }),
+        ],
+        }),
+
+        defineField({
+        name: 'galleryBlocks',
+        title: 'Bloques de mosaico',
+        type: 'array',
+        hidden: ({document}) => document?.layout !== 'mosaic',
+        validation: (rule) =>
+            rule.custom((value, context) => {
+                if (context.document?.layout !== 'mosaic') {
+                return true
+                }
+
+                if (!value || value.length < 1) {
+                return 'Añade al menos un bloque de mosaico.'
+                }
+
+                return true
+            }),
+        of: [
+            defineArrayMember({
+            name: 'galleryBlock',
+            title: 'Bloque de mosaico',
+            type: 'object',
+            fields: [
+                defineField({
+                name: 'blockType',
+                title: 'Tipo de bloque',
+                type: 'string',
+                initialValue: 'stackedFull',
+                options: {
+                    list: [
+                    {title: 'Dos horizontales apiladas', value: 'stackedFull'},
+                    {title: 'Tres columnas verticales', value: 'threeColumns'},
+                    {title: 'Dos columnas dinámicas', value: 'dynamicTwoColumns'},
+                    {title: 'Ancho completo', value: 'fullWidth'},
+                    ],
+                },
+                validation: (rule) => rule.required(),
+                }),
+
+                defineField({
+                name: 'title',
+                title: 'Título interno opcional',
+                type: 'string',
+                }),
+
+                defineField({
+                name: 'items',
+                title: 'Medios del bloque',
+                type: 'array',
+                validation: (rule) => rule.required().min(1).error('Añade al menos un medio.'),
+                of: [
+                    defineArrayMember({
+                    name: 'blockMedia',
+                    title: 'Medio',
+                    type: 'object',
+                    fields: [
+                        defineField({
+                        name: 'mediaType',
+                        title: 'Tipo de medio',
+                        type: 'string',
+                        initialValue: 'image',
+                        options: {
+                            list: [
+                            {title: 'Imagen', value: 'image'},
+                            {title: 'Vídeo', value: 'video'},
+                            ],
+                        },
+                        validation: (rule) => rule.required(),
+                        }),
+
+                        defineField({
+                        name: 'image',
+                        title: 'Imagen',
+                        type: 'image',
+                        options: {
+                            hotspot: true,
+                        },
+                        hidden: ({parent}) => parent?.mediaType !== 'image',
+                        }),
+
+                        defineField({
+                        name: 'video',
+                        title: 'Vídeo',
+                        type: 'file',
+                        options: {
+                            accept: 'video/*',
+                        },
+                        hidden: ({parent}) => parent?.mediaType !== 'video',
+                        }),
+
+                        defineField({
+                        name: 'alt',
+                        title: 'Texto alternativo',
+                        type: 'string',
+                        }),
+
+                        defineField({
+                        name: 'size',
+                        title: 'Tamaño en mosaico dinámico',
+                        type: 'string',
+                        initialValue: 'normal',
+                        options: {
+                            list: [
+                            {title: 'Normal', value: 'normal'},
+                            {title: 'Alta', value: 'tall'},
+                            {title: 'Ancha', value: 'wide'},
+                            {title: 'Grande', value: 'large'},
+                            ],
+                        },
+                        }),
+                    ],
+                    }),
+                ],
                 }),
             ],
             }),
