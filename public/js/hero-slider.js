@@ -1,6 +1,7 @@
-const slides = document.querySelectorAll(".hero-slider__image");
+const slides = document.querySelectorAll(".hero-slider__slide");
 	let currentSlide = 0;
 
+	if (slides.length > 1) {
 	setInterval(() => {
 		slides[currentSlide].classList.remove("active");
 
@@ -8,3 +9,4 @@ const slides = document.querySelectorAll(".hero-slider__image");
 
 		slides[currentSlide].classList.add("active");
 	}, 3000);
+	}

@@ -1,23 +1,41 @@
 ---
 import "../styles/components/hero-slider.scss";
 
-const slides = [
-	"/media/images/webp/hero/home1.png",
-	"/media/images/webp/hero/home2.jpg",
-	"/media/images/webp/hero/home3.png",
-    "/media/images/webp/hero/home4.png",
-    "/media/images/webp/hero/home5.jpg",
-];
+type HeroSlide = {
+	layout: 'full' | 'split'
+	image?: {
+		src?: string
+		alt?: string
+	}
+	secondImage?: {
+		src?: string
+		alt?: string
+	}
+}
+
+const {slides = []} = Astro.props as {slides?: HeroSlide[]}
 ---
 
 <section class="hero-slider">
 	{
 		slides.map((slide, index) => (
-			<img
-				src={slide}
-				alt={`Imagen principal ${index + 1}`}
-				class={`hero-slider__image ${index === 0 ? "active" : ""}`}
-			/>
+			<div class={`hero-slider__slide hero-slider__slide--${slide.layout} ${index === 0 ? "active" : ""}`}>
+				<img
+					src={slide.image?.src}
+					alt={slide.image?.alt || `Imagen principal ${index + 1}`}
+					class="hero-slider__image hero-slider__image--primary"
+				/>
+
+				{
+					slide.layout === 'split' && slide.secondImage?.src && (
+						<img
+							src={slide.secondImage.src}
+							alt={slide.secondImage.alt || `Imagen secundaria ${index + 1}`}
+							class="hero-slider__image hero-slider__image--secondary"
+						/>
+					)
+				}
+			</div>
 		))
 	}
     <div class="hero-slider__logo">

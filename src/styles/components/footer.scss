@@ -83,6 +83,14 @@
 }
 
 @media (max-width: 768px) {
+    .footer,
+    .footer *,
+    .footer_legal,
+    .footer_legal * {
+        transition: none;
+        animation: none;
+    }
+
     .footer {
         flex-direction: column;
         gap: 1.5rem;

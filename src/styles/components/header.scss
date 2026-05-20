@@ -164,6 +164,12 @@
 }
 
 @media (max-width: 768px) {
+    .header,
+    .header * {
+        transition: none;
+        animation: none;
+    }
+
     .header {
         position: sticky;
         height: auto;

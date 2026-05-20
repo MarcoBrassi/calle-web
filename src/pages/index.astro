@@ -1,8 +1,49 @@
 ---
+import { sanityClient } from 'sanity:client'
 import Layout from "../layouts/Layout.astro";
 import HeroSlider from "../components/HeroSlider.astro";
+
+type HeroSlide = {
+	layout: 'full' | 'split'
+	image?: {
+		src?: string
+		alt?: string
+	}
+	secondImage?: {
+		src?: string
+		alt?: string
+	}
+}
+
+const homeSettings = await sanityClient.fetch<{heroSlides?: HeroSlide[]}>(`
+	*[_type == "homeSettings"][0] {
+		heroSlides[] {
+			layout,
+			"image": {
+				"src": image.asset->url,
+				"alt": coalesce(alt, "Imagen de portada")
+			},
+			"secondImage": select(
+				layout == "split" => {
+					"src": secondImage.asset->url,
+					"alt": coalesce(secondAlt, "Imagen de portada")
+				}
+			)
+		}
+	}
+`)
+
+const sanitySlides = homeSettings?.heroSlides?.filter((slide) => {
+	if (slide.layout === 'split') {
+		return slide.image?.src && slide.secondImage?.src
+	}
+
+	return slide.image?.src
+}) ?? []
+
+const slides = sanitySlides
 ---
 
 <Layout activePage="home">
-	<HeroSlider />
+	<HeroSlider slides={slides} />
 </Layout>

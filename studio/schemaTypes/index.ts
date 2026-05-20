@@ -1,3 +1,4 @@
 import {projectType} from './projectType'
+import {homeType} from './homeType'
 
-export const schemaTypes = [projectType]
+export const schemaTypes = [homeType, projectType]
