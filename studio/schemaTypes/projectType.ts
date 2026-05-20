@@ -187,6 +187,29 @@ export const projectType = defineType({
             name: 'galleryBlock',
             title: 'Bloque de mosaico',
             type: 'object',
+            options: {
+                collapsible: true,
+                collapsed: false,
+            },
+            preview: {
+                select: {
+                blockType: 'blockType',
+                items: 'items',
+                },
+                prepare({blockType, items}) {
+                const blockLabels: Record<string, string> = {
+                    stackedFull: 'Dos horizontales apiladas',
+                    threeColumns: 'Tres columnas verticales',
+                    dynamicTwoColumns: 'Dos columnas dinámicas',
+                    fullWidth: 'Ancho completo',
+                }
+
+                return {
+                    title: blockLabels[blockType] || 'Bloque de mosaico',
+                    subtitle: `${items?.length || 0} medios`,
+                }
+                },
+            },
             fields: [
                 defineField({
                 name: 'blockType',
@@ -220,6 +243,10 @@ export const projectType = defineType({
                     name: 'blockMedia',
                     title: 'Medio',
                     type: 'object',
+                    options: {
+                        collapsible: true,
+                        collapsed: false,
+                    },
                     fields: [
                         defineField({
                         name: 'mediaType',

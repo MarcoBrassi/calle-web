@@ -1,26 +1,40 @@
 ---
 import "../styles/components/footer.scss";
+const currentYear = new Date().getFullYear();
 ---
 
-<footer class="footer">
-    <div class="footer__div">
-        <h3 class="footer__title">Instagram</h3>
-        <a href="https://instagram.com" class="footer__text" target="_blank">
-            @calle_production
-        </a>
+<footer>
+    <div class="footer">
+        <div class="footer__div">
+            <h3 class="footer__title">Instagram</h3>
+            <a href="https://instagram.com" class="footer__text" target="_blank">
+                @calle_production
+            </a>
+        </div>
+
+        <div class="footer__div">
+            <h3 class="footer__title">Mail</h3>
+            <a href="mailto:hello@calleproduction.com" class="footer__text" target="_blank">
+                hello@calleproduction.com
+            </a>
+        </div>
+
+        <div class="footer__div">
+            <h3 class="footer__title">Teléfono</h3>
+            <a href="tel:+34625013479" class="footer__text" target="_blank">
+                +34 625 013 479
+            </a>
+        </div>
     </div>
 
-    <div class="footer__div">
-        <h3 class="footer__title">Mail</h3>
-        <a href="mailto:hello@calleproduction.com" class="footer__text" target="_blank">
-            hello@calleproduction.com
-        </a>
-    </div>
+    <div class="footer_legal">
+        <p>© Calle Productions {currentYear}.<br>Todos los derechos reservados.</p>
+        <ul class="legal-links">
+            <li><a href="/aviso-legal">Aviso legal</a></li>
+            <li><a href="/politica-cookies">Política de Cookies</a></li>
+            <li><a href="/politica-privacidad">Política de privacidad</a></li>
+        </ul>
 
-    <div class="footer__div">
-        <h3 class="footer__title">Teléfono</h3>
-        <a href="tel:+34625013479" class="footer__text" target="_blank">
-            +34 625 013 479
-        </a>
     </div>
+    
 </footer>

@@ -44,9 +44,14 @@
         opacity: 0;
         transition: filter 0.4s ease;
     }
+
+    .header__toggle {
+        color: #FBFBFB;
+    }
 }
 
-.header--home.header--scrolled {
+.header--home.header--scrolled,
+.header--home.header--menu-open {
     background: #FBFBFB;
     backdrop-filter: blur(8px);
 
@@ -60,6 +65,10 @@
 
     .header__logo-img {
         opacity: 1;
+    }
+
+    .header__toggle {
+        color: black;
     }
     }
 
@@ -77,11 +86,51 @@
     justify-content: flex-end;
 }
 
+.header__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+    padding: 0;
+    color: black;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+
+    span {
+        display: block;
+        width: 24px;
+        height: 1px;
+        background: currentColor;
+    }
+}
+
+.header--menu-open {
+    .header__toggle span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .header__toggle span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .header__toggle span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
+    }
+}
+
 .header__menu {
     display: flex;
     align-items: center;
     gap: 4rem;
     list-style: none;
+    margin: 0;
+    padding: 0;
 
     a {
         position: relative;
@@ -111,5 +160,79 @@
         &.active::after {
         transform: scaleX(1);
         }
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        position: sticky;
+        height: auto;
+        min-height: 56px;
+        padding: 1rem 1.25rem;
+    }
+
+    .header--home {
+        position: fixed;
+    }
+
+    .header__logo {
+        flex-shrink: 0;
+        padding-right: 1.25rem;
+    }
+
+    .header__logo-img {
+        height: 22px;
+    }
+
+    .header__nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        display: none;
+        width: 100%;
+        padding: 2rem 1.25rem;
+        background: #FBFBFB;
+    }
+
+    .header__menu {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 2rem;
+
+        a {
+            font-size: 28px;
+            line-height: 1.1;
+            color: black;
+
+            &::after {
+                background: black;
+            }
+        }
+    }
+
+    .header__toggle {
+        display: flex;
+    }
+
+    .header--menu-open .header__nav {
+        display: block;
+    }
+}
+
+@media (max-width: 420px) {
+    .header {
+        padding-inline: 1rem;
+    }
+
+    .header__logo {
+        padding-right: 1rem;
+    }
+
+    .header__nav {
+        padding: 1.75rem 1rem;
+    }
+
+    .header__menu a {
+        font-size: 24px;
     }
 }
