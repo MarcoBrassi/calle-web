@@ -27,7 +27,7 @@ const projects = await sanityClient.fetch<Project[]>(`
                 <div>
                     <h2>Proyectos</h2>
                 </div>
-                <div>
+                <div class="project__grid-text-col">
                     <ul>
                         {projects.map((project) => (
                             <li class="small-text">
