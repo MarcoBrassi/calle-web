@@ -46,4 +46,54 @@ const slides = sanitySlides
 
 <Layout activePage="home">
 	<HeroSlider slides={slides} />
+
+	<script>
+		const scrollResetDelay = 10000;
+		let scrollResetTimer;
+
+		const clearScrollResetTimer = () => {
+			if (!scrollResetTimer) return;
+
+			window.clearTimeout(scrollResetTimer);
+			scrollResetTimer = undefined;
+		};
+
+		const isAtPageEnd = () => {
+			const scrollPosition = window.scrollY + window.innerHeight;
+			const pageHeight = document.documentElement.scrollHeight;
+
+			return scrollPosition >= pageHeight - 2;
+		};
+
+		const scheduleScrollReset = () => {
+			if (scrollResetTimer || !isAtPageEnd()) return;
+
+			scrollResetTimer = window.setTimeout(() => {
+				const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+				window.scrollTo({
+					top: 0,
+					behavior: prefersReducedMotion ? 'auto' : 'smooth',
+				});
+
+				scrollResetTimer = undefined;
+			}, scrollResetDelay);
+		};
+
+		window.addEventListener('scroll', () => {
+			if (isAtPageEnd()) {
+				scheduleScrollReset();
+			} else {
+				clearScrollResetTimer();
+			}
+		}, { passive: true });
+
+		window.addEventListener('resize', () => {
+			if (isAtPageEnd()) {
+				scheduleScrollReset();
+			} else {
+				clearScrollResetTimer();
+			}
+		});
+	</script>
 </Layout>

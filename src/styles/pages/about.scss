@@ -74,6 +74,7 @@
 .about__clients {
     display: grid;
     grid-template-columns: 1fr 2.5fr;
+    position: relative;
 
     h2 {
         font-size: 80px;
@@ -87,12 +88,15 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
+        position: relative;
+        isolation: isolate;
 
         li {
             margin-top: -1.5rem;
             color: rgb(204, 204, 204);
             transition: color 0.3s ease, transform 0.3s ease;
         }
+
         li:hover {
             color: black;
             transform: translateX(4px);
@@ -101,6 +105,45 @@
     }
 }
 
+.about__clients-list-wrap {
+    position: relative;
+}
+
+.about__clients-list {
+    position: relative;
+    z-index: 2;
+}
+
+.about__client-item {
+    position: relative;
+    z-index: 2;
+}
+
+.about__clients-preview {
+    position: absolute;
+    top: var(--preview-top, 0);
+    left: var(--preview-left, 0);
+    z-index: 1;
+    width: var(--preview-width, min(clamp(12rem, 22vw, 26rem), 100%));
+    aspect-ratio: 4 / 3;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transform: scale(0.98);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.about__clients-preview.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
 @media (max-width: 1024px) {
     .about__intro {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -255,6 +298,10 @@
             li:hover {
                 transform: none;
             }
+        }
+
+        .about__clients-preview {
+            display: none;
         }
     }
 }

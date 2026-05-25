@@ -1,6 +1,31 @@
 ---
+import { sanityClient } from 'sanity:client'
 import Layout from "../layouts/Layout.astro";
 import "../styles/pages/about.scss";
+
+type Project = {
+    title: string
+    previewImage?: string
+}
+
+const projects = await sanityClient.fetch<Project[]>(`
+    *[
+        _type == "project"
+        && defined(title)
+        && defined(slug.current)
+        && !(_id in path("drafts.**"))
+    ] | order(order asc, title asc) {
+        title,
+        "previewImage": coalesce(
+            select(
+            coverMedia.mediaType == "image" && defined(coverMedia.image.asset) => coverMedia.image.asset->url,
+            defined(coverImage.asset) => coverImage.asset->url
+            ),
+            gallery[defined(image.asset)][0].image.asset->url,
+            galleryBlocks[].items[][mediaType == "image" && defined(image.asset)][0].image.asset->url
+        )
+    }
+`)
 ---
 
 <Layout activePage="about">
@@ -56,30 +81,111 @@ import "../styles/pages/about.scss";
     <section class="container-general">
         <div class="about__clients">
             <h2>Clientes</h2>
-            <ul class="about__clients-list">
-                <li class="medium-text">Dust Magazine, </li>
-                <li class="medium-text">Calvin Klein, </li>
-                <li class="medium-text">Futbol Club Barcelona, </li>
-                <li class="medium-text">Fila, </li>
-                <li class="medium-text">Reebok, </li>
-                <li class="medium-text">Vance Joy, </li>
-                <li class="medium-text">Radio Primavera Sound, </li>
-                <li class="medium-text">Occident, </li>
-                <li class="medium-text">Outsides Division, </li>
-                <li class="medium-text">Russell Athletic, </li>
-                <li class="medium-text">Mascaró, </li>
-                <li class="medium-text">Pretty Ballerinas, </li>
-                <li class="medium-text">Commas, </li>
-                <li class="medium-text">Müa, </li>
-                <li class="medium-text">Vuarnet, </li>
-                <li class="medium-text">Meller, </li>
-                <li class="medium-text">Cottet, </li>
-                <li class="medium-text">Lasserre Paris, </li>
-                <li class="medium-text">Lasserre Studio, </li>
-                <li class="medium-text">Sportium, </li>
-                <li class="medium-text">Marie Clair</li>
-            </ul>
+            <div class="about__clients-list-wrap">
+                <ul class="about__clients-list">
+                    {projects.map((project, index) => (
+                        <li
+                            class="medium-text about__client-item"
+                            data-preview={project.previewImage}
+                        >
+                            {project.title}{index < projects.length - 1 ? ', ' : ''}
+                        </li>
+                    ))}
+                </ul>
+                <div class="about__clients-preview" aria-hidden="true">
+                    <img src="" alt="" loading="lazy" decoding="async" />
+                </div>
+            </div>
         </div>
     </section>
+
+    <script>
+        const clientsWrap = document.querySelector('.about__clients-list-wrap');
+        const clientsPreview = clientsWrap?.querySelector('.about__clients-preview');
+        const clientsPreviewImage = clientsPreview?.querySelector('img');
+        const clientItems = clientsWrap?.querySelectorAll('.about__client-item') ?? [];
+        const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+        const getOverlapArea = (rectA, rectB) => {
+            const width = Math.max(0, Math.min(rectA.right, rectB.right) - Math.max(rectA.left, rectB.left));
+            const height = Math.max(0, Math.min(rectA.bottom, rectB.bottom) - Math.max(rectA.top, rectB.top));
+
+            return width * height;
+        };
+
+        const placePreview = (item) => {
+            if (!clientsWrap || !clientsPreview || !clientsPreviewImage || !canHover.matches) return;
+
+            const previewSrc = item.dataset.preview;
+
+            if (!previewSrc) {
+                clientsPreview.classList.remove('is-visible');
+                return;
+            }
+
+            clientsPreviewImage.src = previewSrc;
+            clientsPreview.classList.add('is-visible');
+
+            const wrapRect = clientsWrap.getBoundingClientRect();
+            const itemRect = item.getBoundingClientRect();
+            const previewRect = clientsPreview.getBoundingClientRect();
+            let previewWidth = previewRect.width || 280;
+            let previewHeight = previewRect.height || 210;
+            const previewScale = Math.min(1, wrapRect.width / previewWidth, wrapRect.height / previewHeight);
+
+            previewWidth *= previewScale;
+            previewHeight *= previewScale;
+
+            const maxLeft = Math.max(0, wrapRect.width - previewWidth);
+            const maxTop = Math.max(0, wrapRect.height - previewHeight);
+            const activeRect = {
+                left: itemRect.left - wrapRect.left - 48,
+                right: itemRect.right - wrapRect.left + 48,
+                top: itemRect.top - wrapRect.top - 48,
+                bottom: itemRect.bottom - wrapRect.top + 96,
+            };
+            const slots = [
+                { left: 0, top: 0 },
+                { left: maxLeft, top: 0 },
+                { left: 0, top: maxTop },
+                { left: maxLeft, top: maxTop },
+                { left: maxLeft * 0.5, top: 0 },
+                { left: maxLeft * 0.5, top: maxTop },
+            ];
+            const bestSlot = slots
+                .map((slot) => {
+                    const left = clamp(slot.left, 0, maxLeft);
+                    const top = clamp(slot.top, 0, maxTop);
+                    const rect = {
+                        left,
+                        right: left + previewWidth,
+                        top,
+                        bottom: top + previewHeight,
+                    };
+                    const overlap = getOverlapArea(rect, activeRect);
+                    const distance = Math.hypot(
+                        left + previewWidth / 2 - (activeRect.left + activeRect.right) / 2,
+                        top + previewHeight / 2 - (activeRect.top + activeRect.bottom) / 2
+                    );
+
+                    return { left, top, score: distance - overlap * 10 };
+                })
+                .sort((a, b) => b.score - a.score)[0];
+
+            clientsPreview.style.setProperty('--preview-width', `${previewWidth}px`);
+            clientsPreview.style.setProperty('--preview-left', `${bestSlot.left}px`);
+            clientsPreview.style.setProperty('--preview-top', `${bestSlot.top}px`);
+        };
+
+        clientItems.forEach((item) => {
+            item.addEventListener('mouseenter', () => placePreview(item));
+            item.addEventListener('focus', () => placePreview(item));
+        });
+
+        clientsWrap?.addEventListener('mouseleave', () => {
+            clientsPreview?.classList.remove('is-visible');
+        });
+    </script>
 
 </Layout>
