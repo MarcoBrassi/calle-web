@@ -49,7 +49,7 @@ const slides = sanitySlides
 
 	<script>
 		const scrollResetDelay = 10000;
-		let scrollResetTimer;
+		let scrollResetTimer: ReturnType<typeof window.setTimeout> | undefined;
 
 		const clearScrollResetTimer = () => {
 			if (!scrollResetTimer) return;

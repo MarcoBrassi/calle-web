@@ -21,7 +21,7 @@ const {slides = []} = Astro.props as {slides?: HeroSlide[]}
 		slides.map((slide, index) => (
 			<div class={`hero-slider__slide hero-slider__slide--${slide.layout} ${index === 0 ? "active" : ""}`}>
 				<img
-					src={slide.image?.src}
+					src={slide.image?.src ?? ""}
 					alt={slide.image?.alt || `Imagen principal ${index + 1}`}
 					class="hero-slider__image hero-slider__image--primary"
 				/>

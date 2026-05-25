@@ -5,6 +5,7 @@ import "../styles/pages/about.scss";
 
 type Project = {
     title: string
+    slug: string
     previewImage?: string
 }
 
@@ -13,9 +14,11 @@ const projects = await sanityClient.fetch<Project[]>(`
         _type == "project"
         && defined(title)
         && defined(slug.current)
+        && featured == true
         && !(_id in path("drafts.**"))
     ] | order(order asc, title asc) {
         title,
+        "slug": slug.current,
         "previewImage": coalesce(
             select(
             coverMedia.mediaType == "image" && defined(coverMedia.image.asset) => coverMedia.image.asset->url,
@@ -48,7 +51,7 @@ const projects = await sanityClient.fetch<Project[]>(`
         </div>
     </section>
 
-    <section>
+    <section class="about__description-section">
         <div class="about__description">
             <div>
                 <p class="large-text">01</p>
@@ -86,9 +89,11 @@ const projects = await sanityClient.fetch<Project[]>(`
                     {projects.map((project, index) => (
                         <li
                             class="medium-text about__client-item"
-                            data-preview={project.previewImage}
+                            data-preview={project.previewImage ?? ""}
                         >
-                            {project.title}{index < projects.length - 1 ? ', ' : ''}
+                            <a href={`/projects/${project.slug}`}>
+                                {project.title}{index < projects.length - 1 ? ', ' : ''}
+                            </a>
                         </li>
                     ))}
                 </ul>
@@ -100,21 +105,28 @@ const projects = await sanityClient.fetch<Project[]>(`
     </section>
 
     <script>
-        const clientsWrap = document.querySelector('.about__clients-list-wrap');
-        const clientsPreview = clientsWrap?.querySelector('.about__clients-preview');
-        const clientsPreviewImage = clientsPreview?.querySelector('img');
-        const clientItems = clientsWrap?.querySelectorAll('.about__client-item') ?? [];
-        const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
-        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        type RectLike = {
+            left: number;
+            right: number;
+            top: number;
+            bottom: number;
+        };
 
-        const getOverlapArea = (rectA, rectB) => {
+        const clientsWrap = document.querySelector<HTMLElement>('.about__clients-list-wrap');
+        const clientsPreview = clientsWrap?.querySelector<HTMLElement>('.about__clients-preview');
+        const clientsPreviewImage = clientsPreview?.querySelector<HTMLImageElement>('img');
+        const clientItems = clientsWrap?.querySelectorAll<HTMLElement>('.about__client-item') ?? [];
+        const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+        const getOverlapArea = (rectA: RectLike, rectB: RectLike) => {
             const width = Math.max(0, Math.min(rectA.right, rectB.right) - Math.max(rectA.left, rectB.left));
             const height = Math.max(0, Math.min(rectA.bottom, rectB.bottom) - Math.max(rectA.top, rectB.top));
 
             return width * height;
         };
 
-        const placePreview = (item) => {
+        const placePreview = (item: HTMLElement) => {
             if (!clientsWrap || !clientsPreview || !clientsPreviewImage || !canHover.matches) return;
 
             const previewSrc = item.dataset.preview;
@@ -172,6 +184,8 @@ const projects = await sanityClient.fetch<Project[]>(`
                     return { left, top, score: distance - overlap * 10 };
                 })
                 .sort((a, b) => b.score - a.score)[0];
+
+            if (!bestSlot) return;
 
             clientsPreview.style.setProperty('--preview-width', `${previewWidth}px`);
             clientsPreview.style.setProperty('--preview-left', `${bestSlot.left}px`);

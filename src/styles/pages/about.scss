@@ -46,6 +46,14 @@
     max-width: 100rem;
 }
 
+.about__description-section {
+        background-color: #EBE8E3;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
 .about__description {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -54,7 +62,6 @@
     width: 100%;
     max-width: 100rem;
     padding: 5rem 2rem;
-    background-color: #EBE8E3;
 
     .large-text {
         font-weight: 400;
@@ -101,6 +108,11 @@
             color: black;
             transform: translateX(4px);
             cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
         }
     }
 }

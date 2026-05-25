@@ -24,6 +24,14 @@ export const projectType = defineType({
         }),
 
         defineField({
+        name: 'featured',
+        title: 'Proyecto destacado',
+        type: 'boolean',
+        initialValue: false,
+        description: 'Activa esta casilla para que el proyecto aparezca en el menú dinámico de About.',
+        }),
+
+        defineField({
         name: 'campaign',
         title: 'Campaña',
         type: 'string',

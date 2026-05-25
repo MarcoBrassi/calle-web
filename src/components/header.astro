@@ -40,9 +40,9 @@ const { activePage, isHome } = Astro.props;
 </header>
 
 <script>
-    const header = document.querySelector(".header");
-    const menuButton = document.querySelector(".header__toggle");
-    const menuLinks = document.querySelectorAll(".header__menu a");
+    const header = document.querySelector<HTMLElement>(".header");
+    const menuButton = document.querySelector<HTMLButtonElement>(".header__toggle");
+    const menuLinks = document.querySelectorAll<HTMLAnchorElement>(".header__menu a");
 
     if (header) {
         window.addEventListener("scroll", () => {
