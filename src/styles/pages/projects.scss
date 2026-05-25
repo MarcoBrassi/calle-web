@@ -90,8 +90,10 @@
     grid-column: span 1;
     grid-row: span 2;
 
-    h2 {
+    h1 {
         margin: 0;
+        font-size: clamp(3rem, 5vw, 5rem);
+        line-height: 0.95;
     }
 
     li + li {
@@ -153,8 +155,8 @@
         grid-row: span 2;
         order: -1;
 
-        h2 {
-            font-size: clamp(2rem, 12vw, 3rem);
+        h1 {
+            font-size: clamp(2.5rem, 12vw, 4rem);
             line-height: 1;
         }
     }
@@ -168,6 +170,10 @@
     .project__grid-text {
         min-height: 300px;
         padding-inline: 1rem;
+
+        h1 {
+            font-size: clamp(2.25rem, 11vw, 3.25rem);
+        }
 
         li + li {
             margin-top: 0.5rem;
