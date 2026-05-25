@@ -8,6 +8,10 @@
     width: 100%;
     max-width: 100rem;
 
+    .about__intro-copy {
+        grid-column: 1;
+    }
+
     .about__logo-img {
         grid-column: 1;
         margin: 0;
@@ -23,10 +27,14 @@
         object-fit: cover;
     }
 
-    h2 {
+    .about__intro-heading--desktop {
         grid-column: 3 / 5;
         display: block;
         text-align: end;
+    }
+
+    .about__intro-heading--mobile {
+        display: none;
     }
 
 }
@@ -41,13 +49,31 @@
 .about__description {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: -5rem;
+    margin-top: 0;
     gap: 3rem;
+    width: 100%;
+    max-width: 100rem;
+    padding: 5rem 2rem;
+    background-color: #EBE8E3;
+
+    .large-text {
+        font-weight: 400;
+        font-size: 220px;
+        line-height: 1.1;
+        letter-spacing: 0;
+        color: white;
+    }
+
+    .small-text {
+        margin-top: -6rem;
+        margin-left: 3rem;
+        font-style: italic;
+    }
 }
 
 .about__clients {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 2.5fr;
 
     h2 {
         font-size: 80px;
@@ -80,24 +106,38 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 2rem;
 
-        .about__logo-img {
+        .about__intro-copy {
             grid-column: 1;
+            grid-row: 1;
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .about__logo-img {
             font-size: clamp(3.5rem, 10vw, 5.5rem);
         }
 
         .about__intro-img {
             grid-column: 2;
+            grid-row: 1;
             max-height: 28rem;
         }
 
-        h2 {
-            grid-column: 1 / -1;
-            text-align: right;
+        .about__intro-heading--desktop {
+            display: none;
+        }
+
+        .about__intro-heading--mobile {
+            display: block;
+            text-align: left;
         }
     }
 
     .about__intro-text {
-        margin-top: 2rem;
+        margin-top: 4rem;
 
         .large-text {
             font-size: clamp(2.75rem, 7vw, 4rem);
@@ -106,13 +146,23 @@
     }
 
     .about__description {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         margin-top: 0;
         gap: 2rem;
+        background-color: #EBE8E3;
+
+        .large-text {
+            font-size: 150px;
+        }
+
+        .small-text {
+            margin-top: -4rem;
+        }
     }
 
     .about__clients {
-        gap: 2rem;
+        grid-template-columns: 1fr;
+        gap: 4rem;
 
         h2 {
             font-size: clamp(3rem, 8vw, 5rem);
@@ -133,26 +183,36 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.25rem;
 
+        .about__intro-copy {
+            grid-column: 1;
+            grid-row: 1;
+            align-self: stretch;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
         .about__logo-img {
-            align-self: center;
             font-size: clamp(3rem, 14vw, 4.75rem);
         }
 
         .about__intro-img {
+            grid-column: 2;
+            grid-row: 1;
             width: 100%;
             max-height: 22rem;
         }
 
-        h2 {
-            grid-column: 1 / -1;
-            font-size: clamp(2rem, 10vw, 3rem);
+        .about__intro-heading--mobile {
+            font-size: clamp(1.4rem, 7vw, 2rem);
             line-height: 1.05;
-            text-align: right;
+            text-align: left;
         }
     }
 
     .about__intro-text {
-        margin-top: 0;
+        margin-top: 3rem;
 
         .large-text {
             font-size: clamp(2rem, 11vw, 3.25rem);
@@ -163,6 +223,9 @@
     .about__description {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+        margin-top: 0;
+        background-color: #EBE8E3;
+        padding: 3rem 1.25rem;
 
         .small-text {
             font-size: 18px;
@@ -202,14 +265,14 @@
     }
 
     .about__intro {
-        gap: 1rem;
+        gap: 2rem;
 
         .about__logo-img {
             font-size: clamp(2.5rem, 16vw, 3.75rem);
         }
 
-        h2 {
-            font-size: clamp(1.75rem, 11vw, 2.5rem);
+        .about__intro-heading--mobile {
+            font-size: clamp(1.4rem, 7vw, 2rem);
         }
     }
 

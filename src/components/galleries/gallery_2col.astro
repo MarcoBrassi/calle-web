@@ -34,8 +34,10 @@ const columns = [
     <header class="project-info project-info--overlay">
         {title && <h2>{title}</h2>}
         {campaign && <p class="project-info__campaign">{campaign}</p>}
-        {servicesText && <p class="project-info__services">{servicesText}</p>}
-        {description && <p class="project-info__description">{description}</p>}
+        <div class="project-info__details">
+            {servicesText && <p class="project-info__services">{servicesText}</p>}
+            {description && <p class="project-info__description">{description}</p>}
+        </div>
     </header>
 
     <div class="project-gallery project-gallery--two-columns">
