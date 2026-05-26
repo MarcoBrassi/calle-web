@@ -76,6 +76,12 @@
     }
 }
 
+.gallery-mosaic__block--stackedFull .gallery-mosaic__item--cover,
+.gallery-mosaic__block--fullWidth .gallery-mosaic__item--cover {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+}
+
 .gallery-mosaic__cover {
     aspect-ratio: 16 / 9;
 }
@@ -103,6 +109,14 @@
 
     .gallery-mosaic__item {
         aspect-ratio: 16 / 9;
+    }
+}
+
+.gallery-mosaic__block--squareTwoColumns {
+    grid-template-columns: repeat(2, 1fr);
+
+    .gallery-mosaic__item {
+        aspect-ratio: 1 / 1;
     }
 }
 
@@ -157,13 +171,15 @@
     }
 
     .gallery-mosaic__cover,
+    .gallery-mosaic__item--cover,
     .gallery-mosaic__block--stackedFull .gallery-mosaic__item,
     .gallery-mosaic__block--fullWidth .gallery-mosaic__item {
         aspect-ratio: auto;
     }
 
     .gallery-mosaic__block--threeColumns,
-    .gallery-mosaic__block--dynamicTwoColumns {
+    .gallery-mosaic__block--dynamicTwoColumns,
+    .gallery-mosaic__block--squareTwoColumns {
         grid-template-columns: 1fr;
         grid-auto-rows: auto;
     }

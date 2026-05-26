@@ -15,8 +15,54 @@ type HeroSlide = {
 	}
 }
 
-const homeSettings = await sanityClient.fetch<{heroSlides?: HeroSlide[]}>(`
-	*[_type == "homeSettings"][0] {
+type SlideGroup = {
+	title?: string
+	isMain?: boolean
+	slides?: HeroSlide[]
+}
+
+type HomeSliderDocument = {
+	title?: string
+	isMain?: boolean
+	slides?: HeroSlide[]
+	heroSlides?: HeroSlide[]
+	slideGroups?: SlideGroup[]
+}
+
+const homeSliderDocuments = await sanityClient.fetch<HomeSliderDocument[]>(`
+	*[_type == "homeSettings"] | order(_createdAt asc) {
+		title,
+		isMain,
+		slides[] {
+			layout,
+			"image": {
+				"src": image.asset->url,
+				"alt": coalesce(alt, "Imagen de portada")
+			},
+			"secondImage": select(
+				layout == "split" => {
+					"src": secondImage.asset->url,
+					"alt": coalesce(secondAlt, "Imagen de portada")
+				}
+			)
+		},
+		slideGroups[] {
+			title,
+			isMain,
+			slides[] {
+				layout,
+				"image": {
+					"src": image.asset->url,
+					"alt": coalesce(alt, "Imagen de portada")
+				},
+				"secondImage": select(
+					layout == "split" => {
+						"src": secondImage.asset->url,
+						"alt": coalesce(secondAlt, "Imagen de portada")
+					}
+				)
+			}
+		},
 		heroSlides[] {
 			layout,
 			"image": {
@@ -33,7 +79,20 @@ const homeSettings = await sanityClient.fetch<{heroSlides?: HeroSlide[]}>(`
 	}
 `)
 
-const sanitySlides = homeSettings?.heroSlides?.filter((slide) => {
+const mainSliderDocument = homeSliderDocuments.find((document) => document.isMain)
+const fallbackSliderDocument = homeSliderDocuments[0]
+const activeSliderDocument = mainSliderDocument ?? fallbackSliderDocument
+const legacyMainSlideGroup = activeSliderDocument?.slideGroups?.find((group) => group.isMain)
+const legacyFallbackSlideGroup = activeSliderDocument?.slideGroups?.[0]
+const sourceSlides = activeSliderDocument?.slides?.length
+	? activeSliderDocument.slides
+	: activeSliderDocument?.heroSlides?.length
+		? activeSliderDocument.heroSlides
+		: legacyMainSlideGroup?.slides?.length
+			? legacyMainSlideGroup.slides
+			: legacyFallbackSlideGroup?.slides
+
+const sanitySlides = sourceSlides?.filter((slide) => {
 	if (slide.layout === 'split') {
 		return slide.image?.src && slide.secondImage?.src
 	}

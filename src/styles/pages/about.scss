@@ -64,11 +64,12 @@
     padding: 5rem 2rem;
 
     .large-text {
-        font-weight: 400;
-        font-size: 220px;
+        font-weight: 600;
+        font-size: 160px;
         line-height: 1.1;
         letter-spacing: 0;
         color: white;
+        font-family: $font-secondary;
     }
 
     .small-text {

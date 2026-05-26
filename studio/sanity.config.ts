@@ -3,6 +3,9 @@ import {defineConfig, useClient} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
+import {CalleStudioLogo} from './components/CalleStudioLogo'
+import {deskStructure} from './deskStructure'
+import {calleStudioTheme} from './studioTheme'
 
 function DuplicateProjectAction(props: any) {
   const client = useClient({apiVersion: '2026-03-01'})
@@ -46,12 +49,20 @@ function DuplicateProjectAction(props: any) {
 
 export default defineConfig({
   name: 'default',
-  title: 'calle-web-sanity',
+  title: 'Calle Web',
 
   projectId: '84i991bj',
   dataset: 'production',
 
-  plugins: [structureTool(), visionTool()],
+  theme: calleStudioTheme,
+
+  studio: {
+    components: {
+      logo: CalleStudioLogo,
+    },
+  },
+
+  plugins: [structureTool({structure: deskStructure}), visionTool()],
 
   schema: {
     types: schemaTypes,

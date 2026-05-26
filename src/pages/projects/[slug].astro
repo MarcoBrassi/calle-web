@@ -13,7 +13,7 @@ type GalleryItem = {
 }
 
 type GalleryBlock = {
-    blockType: 'stackedFull' | 'threeColumns' | 'dynamicTwoColumns' | 'fullWidth'
+    blockType: 'stackedFull' | 'threeColumns' | 'dynamicTwoColumns' | 'fullWidth' | 'squareTwoColumns'
     title?: string
     items?: GalleryItem[]
 }
@@ -101,7 +101,6 @@ const galleryItems = [
     {
         project.layout === 'mosaic' ? (
             <GalleryMosaic
-                coverMedia={project.coverMedia}
                 blocks={project.galleryBlocks}
                 title={project.title}
                 campaign={project.campaign}
