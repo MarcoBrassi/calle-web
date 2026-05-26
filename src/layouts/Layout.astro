@@ -3,7 +3,7 @@ import Header from "../components/header.astro";
 import Footer from "../components/footer.astro";
 import "../styles/global.scss";
 
-const { activePage } = Astro.props;
+const { activePage, hideFooter = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,6 +21,6 @@ const { activePage } = Astro.props;
 			<slot />
 		</main>
 
-		<Footer />
+		{!hideFooter && <Footer />}
 	</body>
 </html>

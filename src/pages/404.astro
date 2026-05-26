@@ -1,0 +1,94 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/pages/not-found.scss";
+
+const missingPath = Astro.url.pathname;
+---
+
+<Layout hideFooter={true}>
+    <section class="not-found" data-not-found-stage>
+        <div class="not-found__media" aria-hidden="true">
+            <figure class="not-found__frame not-found__frame--one">
+                <img src="/media/images/webp/AndreaCalle03.webp" alt="" />
+            </figure>
+
+            <figure class="not-found__frame not-found__frame--two">
+                <img src="/media/images/webp/AndreaCalle13.webp" alt="" />
+            </figure>
+
+            <figure class="not-found__frame not-found__frame--three">
+                <img src="/media/images/webp/AndreaCalle18.webp" alt="" />
+            </figure>
+        </div>
+
+        <div class="not-found__content">
+            <p class="not-found__eyebrow">Error 404 · frame perdido</p>
+            <h1 class="not-found__number" data-not-found-number>404</h1>
+            <div class="not-found__copy">
+                <h2>Página fuera de encuadre</h2>
+                <p>
+                    La dirección <span>{missingPath}</span> no existe o se ha movido de sitio.
+                    Puedes volver al inicio o seguir mirando proyectos.
+                </p>
+            </div>
+
+            <div class="not-found__actions">
+                <a href="/" class="not-found__link not-found__link--primary">Volver al inicio</a>
+                <a href="/projects" class="not-found__link">Ver proyectos</a>
+                <button class="not-found__shuffle" type="button" data-not-found-shuffle>
+                    Reencuadrar
+                </button>
+            </div>
+        </div>
+
+        <p class="not-found__caption" data-not-found-caption>
+            La toma buena no estaba aquí.
+        </p>
+    </section>
+</Layout>
+
+<script>
+    const stage = document.querySelector<HTMLElement>("[data-not-found-stage]");
+    const number = document.querySelector<HTMLElement>("[data-not-found-number]");
+    const shuffleButton = document.querySelector<HTMLButtonElement>("[data-not-found-shuffle]");
+    const caption = document.querySelector<HTMLElement>("[data-not-found-caption]");
+    const frames = Array.from(document.querySelectorAll<HTMLElement>(".not-found__frame"));
+
+    const captions = [
+        "La toma buena no estaba aquí.",
+        "Este enlace se ha ido a scouting.",
+        "Plano perdido. Producción avisada.",
+        "Nada por aquí, pero la luz está bien.",
+        "La página salio del encuadre.",
+    ];
+
+    if (stage && number) {
+        stage.addEventListener("pointermove", (event) => {
+            const rect = stage.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width - 0.5;
+            const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+            stage.style.setProperty("--cursor-x", String(x));
+            stage.style.setProperty("--cursor-y", String(y));
+            number.style.setProperty("--number-x", `${x * 18}px`);
+            number.style.setProperty("--number-y", `${y * -14}px`);
+        });
+    }
+
+    if (shuffleButton && caption) {
+        shuffleButton.addEventListener("click", () => {
+            frames.forEach((frame) => {
+                const x = Math.round(Math.random() * 72 + 8);
+                const y = Math.round(Math.random() * 54 + 18);
+                const rotation = Math.round(Math.random() * 24 - 12);
+
+                frame.style.setProperty("--shuffle-x", `${x}%`);
+                frame.style.setProperty("--shuffle-y", `${y}%`);
+                frame.style.setProperty("--shuffle-rotation", `${rotation}deg`);
+            });
+
+            const nextCaption = captions[Math.floor(Math.random() * captions.length)];
+            caption.textContent = nextCaption;
+        });
+    }
+</script>
