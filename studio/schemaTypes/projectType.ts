@@ -13,7 +13,7 @@ export const projectType = defineType({
     type: 'document',
     groups: [
         {name: 'content', title: 'Contenido', default: true},
-        {name: 'gallery', title: 'Galeria'},
+        {name: 'gallery', title: 'Galería'},
         {name: 'settings', title: 'Ajustes'},
     ],
     preview: {
@@ -32,8 +32,8 @@ export const projectType = defineType({
         }
 
         return {
-            title: title || 'Proyecto sin titulo',
-            subtitle: `${featured ? 'Destacado · ' : ''}${campaign || 'Sin campana'} · ${galleryLabels[layout] || 'Galeria'}`,
+            title: title || 'Proyecto sin título',
+            subtitle: `${featured ? 'Destacado · ' : ''}${campaign || 'Sin campaña'} · ${galleryLabels[layout] || 'Galería'}`,
             media,
         }
         },
@@ -318,7 +318,7 @@ export const projectType = defineType({
                     const parent = context.parent as {blockType?: string} | undefined
 
                     if (!value || value.length < 1) {
-                        return 'Anade al menos un medio.'
+                        return 'Añade al menos un medio.'
                     }
 
                     if (parent?.blockType === 'squareTwoColumns' && value.length !== 2) {

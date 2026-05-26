@@ -12,8 +12,7 @@ export function MosaicCoverNotice() {
     >
       <strong style={{fontSize: '0.95rem', lineHeight: 1.2}}>Imagen principal automática</strong>
       <span style={{fontSize: '0.85rem', lineHeight: 1.45, opacity: 0.72}}>
-        En la galeria mosaico no se sube una imagen principal aparte. El primer medio que
-        anadas dentro de los bloques de mosaico se usara automaticamente como imagen principal.
+        El primer medio que añadas dentro de los bloques de mosaico se usará automáticamente como imagen principal.
       </span>
     </div>
   )

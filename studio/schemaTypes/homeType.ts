@@ -66,7 +66,7 @@ const heroSlideMember = defineArrayMember({
             const parent = context.parent as {layout?: string} | undefined
 
             if (parent?.layout === 'split' && !value) {
-            return 'Anade la segunda imagen para el slide de dos columnas.'
+            return 'Añade la segunda imagen para el slide de dos columnas.'
             }
 
             return true
@@ -116,7 +116,7 @@ export const homeType = defineType({
     defineField({
         name: 'title',
         title: 'Nombre del grupo',
-        description: 'Uso interno para diferenciar grupos, por ejemplo: Campana verano, Home minima o Test editorial.',
+        description: 'Uso interno para diferenciar grupos, por ejemplo: Campaña verano, Home mínima o Test editorial.',
         type: 'string',
         validation: (rule) => rule.required(),
     }),
@@ -124,7 +124,7 @@ export const homeType = defineType({
     defineField({
         name: 'isMain',
         title: 'Marcar como principal',
-        description: 'La web mostrara el grupo marcado como principal. Si hay varios marcados, se usara el primero encontrado.',
+        description: 'La web mostrará el grupo marcado como principal. Si hay varios marcados, se usará el primero encontrado.',
         type: 'boolean',
         initialValue: false,
     }),
@@ -132,14 +132,14 @@ export const homeType = defineType({
     defineField({
         name: 'slides',
         title: 'Slides',
-        description: 'Anade entre 1 y 6 slides.',
+        description: 'Añade entre 1 y 6 slides.',
         type: 'array',
         validation: (rule) =>
         rule
             .required()
             .min(1)
             .max(6)
-            .error('Anade entre 1 y 6 slides.'),
+            .error('Añade entre 1 y 6 slides.'),
         of: [heroSlideMember],
     }),
 
