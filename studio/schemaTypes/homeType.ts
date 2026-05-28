@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {MainHomeToggleInput} from '../components/MainHomeToggleInput'
 import {SlideLayoutInput, SlideObjectInput} from '../components/SlideLayoutInput'
 
 const heroSlideMember = defineArrayMember({
@@ -124,9 +125,44 @@ export const homeType = defineType({
     defineField({
         name: 'isMain',
         title: 'Marcar como principal',
-        description: 'La web mostrará el grupo marcado como principal. Si hay varios marcados, se usará el primero encontrado.',
+        description: 'La web mostrará este grupo en la home. Solo puede haber un grupo marcado como principal.',
         type: 'boolean',
         initialValue: false,
+        components: {
+        input: MainHomeToggleInput,
+        },
+        validation: (rule) =>
+        rule.custom(async (value, context) => {
+            if (!value) {
+            return true
+            }
+
+            const rawDocumentId = String(context.document?._id || '')
+            const publishedDocumentId = rawDocumentId.replace(/^drafts\./, '')
+
+            if (!publishedDocumentId) {
+            return true
+            }
+
+            const client = context.getClient({apiVersion: '2026-03-01'})
+            const existingMainCount = await client.fetch<number>(
+            `count(*[
+                _type == "homeSettings"
+                && isMain == true
+                && !(_id in [$draftId, $publishedId])
+            ])`,
+            {
+                draftId: `drafts.${publishedDocumentId}`,
+                publishedId: publishedDocumentId,
+            },
+            )
+
+            if (existingMainCount > 0) {
+            return 'Solo puede haber un grupo de slides marcado como principal. Desmarca el otro grupo antes de marcar este.'
+            }
+
+            return true
+        }),
     }),
 
     defineField({
