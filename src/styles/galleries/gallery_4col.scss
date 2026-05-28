@@ -1,4 +1,5 @@
 @use "../variables" as *;
+@use "./project_info_sticky" as projectInfo;
 
 .gallery4col {
     position: relative;
@@ -129,3 +130,5 @@
         height: auto;
     }
 }
+
+@include projectInfo.sticky-project-info;

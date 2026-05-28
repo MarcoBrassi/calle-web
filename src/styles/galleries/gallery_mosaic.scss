@@ -1,4 +1,5 @@
 @use "../variables" as *;
+@use "./project_info_sticky" as projectInfo;
 
 .gallery-mosaic {
     position: relative;
@@ -198,3 +199,5 @@
         }
     }
 }
+
+@include projectInfo.sticky-project-info;

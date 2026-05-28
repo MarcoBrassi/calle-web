@@ -126,3 +126,36 @@ const galleryItems = [
         )
     }
 </Layout>
+
+<script>
+    const projectInfo = document.querySelector<HTMLElement>(".project-info--overlay");
+    const projectGallery = projectInfo?.closest<HTMLElement>(".gallery2col, .gallery4col, .gallery-mosaic");
+    const footer = document.querySelector<HTMLElement>("footer");
+
+    if (projectInfo && projectGallery) {
+        const syncProjectInfoHeight = () => {
+            projectGallery.style.setProperty("--project-info-height", `${projectInfo.offsetHeight}px`);
+        };
+
+        syncProjectInfoHeight();
+        window.addEventListener("resize", syncProjectInfoHeight);
+
+        if ("ResizeObserver" in window) {
+            const resizeObserver = new ResizeObserver(syncProjectInfoHeight);
+            resizeObserver.observe(projectInfo);
+        }
+    }
+
+    if (projectInfo && footer && "IntersectionObserver" in window) {
+        const footerObserver = new IntersectionObserver(
+            ([entry]) => {
+                projectInfo.classList.toggle("project-info--docked", entry.isIntersecting);
+            },
+            {
+                threshold: 0,
+            },
+        );
+
+        footerObserver.observe(footer);
+    }
+</script>
