@@ -36,7 +36,10 @@ const projects = await sanityClient.fetch<Project[]>(`
 	<section class="container-general">
         <div class="about__intro">
             <div class="about__intro-copy">
-                <h1 class="about__logo-img">About Calle</h1>
+                <div class="about__logo-group">
+                    <h1 class="about__logo-img">About</h1>
+                    <img src="/icons/calle-icon.svg" alt="Calle" class="about__logo-logo"/>
+                </div>
                 <h2 class="about__intro-heading about__intro-heading--mobile">Pequeñas producciones,<br> grandes ideas</h2>
             </div>
             <img src="/media/images/webp/AndreaCalle18.webp" alt="" class="about__intro-img">
