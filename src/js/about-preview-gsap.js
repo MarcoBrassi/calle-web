@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 const clientsWrap = document.querySelector(".about__clients-list-wrap");
 const clientsPreview = clientsWrap?.querySelector(".about__clients-preview");
 const clientsPreviewImage = clientsPreview?.querySelector("img");
-const clientItems = clientsWrap?.querySelectorAll(".about__client-item") ?? [];
+const clientItems = Array.from(clientsWrap?.querySelectorAll(".about__client-item") ?? []);
 const canHover = window.matchMedia("(hover: hover) and (pointer: fine)");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
@@ -70,9 +70,11 @@ if (
         const normalizedY = (y / wrapRect.height - 0.5) * 2;
         const offsetX = normalizedX * 18;
         const offsetY = normalizedY * 14;
+        const centerX = clamp(x + offsetX, previewWidth / 2, wrapRect.width - previewWidth / 2);
+        const centerY = clamp(y + offsetY, previewHeight / 2, wrapRect.height - previewHeight / 2);
 
-        setX(clamp(x + offsetX, previewWidth / 2, wrapRect.width - previewWidth / 2));
-        setY(clamp(y + offsetY, previewHeight / 2, wrapRect.height - previewHeight / 2));
+        setX(centerX);
+        setY(centerY);
         setRotation(clamp(normalizedX * 4 + normalizedY * -2, -5, 5));
         setImageX(clamp(normalizedX * -12, -12, 12));
         setImageY(clamp(normalizedY * -10, -10, 10));
@@ -89,16 +91,12 @@ if (
             if (!previewSrc) return;
 
             clientsPreviewImage.src = previewSrc;
-            clientsWrap.classList.add("is-preview-visible");
-            item.classList.add("is-preview-active");
             document.addEventListener("mousemove", onMouseMove);
             alignPreview(event);
             showPreview.play();
         });
 
         item.addEventListener("mouseleave", () => {
-            clientsWrap.classList.remove("is-preview-visible");
-            item.classList.remove("is-preview-active");
             showPreview.reverse();
             document.removeEventListener("mousemove", onMouseMove);
         });
@@ -109,8 +107,6 @@ if (
             if (!previewSrc) return;
 
             clientsPreviewImage.src = previewSrc;
-            clientsWrap.classList.add("is-preview-visible");
-            item.classList.add("is-preview-active");
             gsap.set(clientsPreview, {
                 x: clientsWrap.clientWidth * 0.5,
                 y: clientsWrap.clientHeight * 0.5,
@@ -124,15 +120,11 @@ if (
         });
 
         item.addEventListener("blur", () => {
-            clientsWrap.classList.remove("is-preview-visible");
-            item.classList.remove("is-preview-active");
             showPreview.reverse();
         });
     });
 
     clientsWrap.addEventListener("mouseleave", () => {
-        clientsWrap.classList.remove("is-preview-visible");
-        clientItems.forEach((item) => item.classList.remove("is-preview-active"));
         showPreview.reverse();
         document.removeEventListener("mousemove", onMouseMove);
     });
