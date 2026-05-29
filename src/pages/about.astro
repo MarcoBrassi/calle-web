@@ -32,24 +32,29 @@ const projects = await sanityClient.fetch<Project[]>(`
 ---
 
 <Layout activePage="about">
-
-	<section class="container-general">
+    <section class="container-general">
         <div class="about__intro">
             <div class="about__intro-copy">
                 <div class="about__logo-group">
                     <h1 class="about__logo-img">About</h1>
                     <img src="/icons/calle-icon.svg" alt="Calle" class="about__logo-logo"/>
                 </div>
-                <h2 class="about__intro-heading about__intro-heading--mobile">Pequeñas producciones,<br> grandes ideas</h2>
+                <h2 class="about__intro-heading about__intro-heading--mobile">
+                    <span class="about__heading-line" data-typewriter-text="Pequeñas producciones,">Pequeñas producciones,</span><br>
+                    <span class="about__heading-line" data-typewriter-text="grandes ideas">grandes ideas</span>
+                </h2>
             </div>
             <img src="/media/images/webp/AndreaCalle18.webp" alt="" class="about__intro-img">
-            <h2 class="about__intro-heading about__intro-heading--desktop">Pequeñas producciones,<br> grandes ideas</h2>
+            <h2 class="about__intro-heading about__intro-heading--desktop">
+                <span class="about__heading-line" data-typewriter-text="Pequeñas producciones,">Pequeñas producciones,</span><br>
+                <span class="about__heading-line" data-typewriter-text="grandes ideas">grandes ideas</span>
+            </h2>
         </div>
         <div class="about__intro-text">
             <p class="large-text">
-            Es una productora service que surge de la pasión
-            por el mundo audiovisual y se desarrolla dando servicios 
-            de producción creativa a proyectos de moda y publicidad.
+                Es una productora service que surge de la pasión
+                por el mundo audiovisual y se desarrolla dando servicios
+                de producción creativa a proyectos de moda y publicidad.
             </p>
         </div>
     </section>
@@ -59,31 +64,31 @@ const projects = await sanityClient.fetch<Project[]>(`
             <div>
                 <p class="large-text">01</p>
                 <p class="small-text">
-                Desarrollamos grandes 
-                ideas con producciones adaptadas a cada proyecto, con equipos fluidos 
-                y aprovechando al máximo los recursos de cada cliente.
-            </p>
+                    Desarrollamos grandes
+                    ideas con producciones adaptadas a cada proyecto, con equipos fluidos
+                    y aprovechando al máximo los recursos de cada cliente.
+                </p>
             </div>
 
             <div>
                 <p class="large-text">02</p>
                 <p class="small-text">
-                Nuestra misión es abordar cada proyecto de forma personalizada, cercana 
-                y mimando hasta el último detalle para conseguir contenido original y de calidad. 
+                    Nuestra misión es abordar cada proyecto de forma personalizada, cercana
+                    y mimando hasta el último detalle para conseguir contenido original y de calidad.
                 </p>
             </div>
 
             <div>
                 <p class="large-text">03</p>
                 <p class="small-text">
-                Nuestra filosofía es que tanto el cliente como
-                el equipo queden satisfechos con el proceso
-                y resultado.
-            </p>
+                    Nuestra filosofía es que tanto el cliente como
+                    el equipo queden satisfechos con el proceso
+                    y resultado.
+                </p>
             </div>
         </div>
     </section>
-    
+
     <section class="container-general">
         <div class="about__clients">
             <h2>Clientes</h2>
@@ -108,101 +113,7 @@ const projects = await sanityClient.fetch<Project[]>(`
     </section>
 
     <script>
-        type RectLike = {
-            left: number;
-            right: number;
-            top: number;
-            bottom: number;
-        };
-
-        const clientsWrap = document.querySelector<HTMLElement>('.about__clients-list-wrap');
-        const clientsPreview = clientsWrap?.querySelector<HTMLElement>('.about__clients-preview');
-        const clientsPreviewImage = clientsPreview?.querySelector<HTMLImageElement>('img');
-        const clientItems = clientsWrap?.querySelectorAll<HTMLElement>('.about__client-item') ?? [];
-        const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
-        const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
-
-        const getOverlapArea = (rectA: RectLike, rectB: RectLike) => {
-            const width = Math.max(0, Math.min(rectA.right, rectB.right) - Math.max(rectA.left, rectB.left));
-            const height = Math.max(0, Math.min(rectA.bottom, rectB.bottom) - Math.max(rectA.top, rectB.top));
-
-            return width * height;
-        };
-
-        const placePreview = (item: HTMLElement) => {
-            if (!clientsWrap || !clientsPreview || !clientsPreviewImage || !canHover.matches) return;
-
-            const previewSrc = item.dataset.preview;
-
-            if (!previewSrc) {
-                clientsPreview.classList.remove('is-visible');
-                return;
-            }
-
-            clientsPreviewImage.src = previewSrc;
-            clientsPreview.classList.add('is-visible');
-
-            const wrapRect = clientsWrap.getBoundingClientRect();
-            const itemRect = item.getBoundingClientRect();
-            const previewRect = clientsPreview.getBoundingClientRect();
-            let previewWidth = previewRect.width || 280;
-            let previewHeight = previewRect.height || 210;
-            const previewScale = Math.min(1, wrapRect.width / previewWidth, wrapRect.height / previewHeight);
-
-            previewWidth *= previewScale;
-            previewHeight *= previewScale;
-
-            const maxLeft = Math.max(0, wrapRect.width - previewWidth);
-            const maxTop = Math.max(0, wrapRect.height - previewHeight);
-            const activeRect = {
-                left: itemRect.left - wrapRect.left - 48,
-                right: itemRect.right - wrapRect.left + 48,
-                top: itemRect.top - wrapRect.top - 48,
-                bottom: itemRect.bottom - wrapRect.top + 96,
-            };
-            const slots = [
-                { left: 0, top: 0 },
-                { left: maxLeft, top: 0 },
-                { left: 0, top: maxTop },
-                { left: maxLeft, top: maxTop },
-                { left: maxLeft * 0.5, top: 0 },
-                { left: maxLeft * 0.5, top: maxTop },
-            ];
-            const bestSlot = slots
-                .map((slot) => {
-                    const left = clamp(slot.left, 0, maxLeft);
-                    const top = clamp(slot.top, 0, maxTop);
-                    const rect = {
-                        left,
-                        right: left + previewWidth,
-                        top,
-                        bottom: top + previewHeight,
-                    };
-                    const overlap = getOverlapArea(rect, activeRect);
-                    const distance = Math.hypot(
-                        left + previewWidth / 2 - (activeRect.left + activeRect.right) / 2,
-                        top + previewHeight / 2 - (activeRect.top + activeRect.bottom) / 2
-                    );
-
-                    return { left, top, score: distance - overlap * 10 };
-                })
-                .sort((a, b) => b.score - a.score)[0];
-
-            if (!bestSlot) return;
-
-            clientsPreview.style.setProperty('--preview-width', `${previewWidth}px`);
-            clientsPreview.style.setProperty('--preview-left', `${bestSlot.left}px`);
-            clientsPreview.style.setProperty('--preview-top', `${bestSlot.top}px`);
-        };
-
-        clientItems.forEach((item) => {
-            item.addEventListener('mouseenter', () => placePreview(item));
-            item.addEventListener('focus', () => placePreview(item));
-        });
-
-        clientsWrap?.addEventListener('mouseleave', () => {
-            clientsPreview?.classList.remove('is-visible');
-        });
+        import "../js/about-intro-gsap.js";
+        import "../js/about-preview-gsap.js";
     </script>
-
 </Layout>

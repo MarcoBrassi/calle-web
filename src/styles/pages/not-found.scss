@@ -1,14 +1,20 @@
 @use "../variables" as *;
 
+body:has(.not-found) {
+    overflow: hidden;
+}
+
 .not-found {
     --cursor-x: 0;
     --cursor-y: 0;
+    --not-found-header-height: 64px;
+    --not-found-safe-bottom: env(safe-area-inset-bottom, 0px);
 
     position: relative;
     isolation: isolate;
     display: grid;
     width: 100%;
-    height: calc(100svh - 45px);
+    height: calc(100svh - var(--not-found-header-height));
     min-height: 0;
     overflow: hidden;
     padding: clamp(3rem, 7svh, 5rem) 4rem clamp(2rem, 5svh, 3rem);
@@ -203,9 +209,9 @@
     }
 
     .not-found {
-        height: calc(100svh - 56px);
+        --not-found-header-height: 56px;
         min-height: 0;
-        padding: 3rem 1.25rem 1.5rem;
+        padding: 2.25rem 1.25rem max(1.25rem, calc(var(--not-found-safe-bottom) + 1rem));
         background-size: 5rem 5rem;
     }
 
@@ -220,8 +226,8 @@
 
     .not-found__copy {
         grid-template-columns: 1fr;
-        gap: 1.75rem;
-        margin-top: 1.5rem;
+        gap: 1.25rem;
+        margin-top: 1.1rem;
 
         h2 {
             max-width: 11rem;
@@ -251,7 +257,7 @@
     .not-found__actions {
         align-items: stretch;
         flex-direction: column;
-        margin-top: 1.25rem;
+        margin-top: 1rem;
     }
 
     .not-found__link,
@@ -263,7 +269,7 @@
     .not-found__caption {
         position: static;
         max-width: 100%;
-        margin-top: 1.25rem;
+        margin-top: 0.9rem;
         text-align: left;
     }
 }
@@ -271,6 +277,15 @@
 @media (max-width: 420px) {
     .not-found {
         padding-inline: 1rem;
+        padding-top: 1.75rem;
+    }
+
+    .not-found__eyebrow {
+        margin-bottom: 1.25rem;
+    }
+
+    .not-found__number {
+        font-size: clamp(6.25rem, 34vw, 11.5rem);
     }
 }
 

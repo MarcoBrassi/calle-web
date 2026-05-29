@@ -46,8 +46,14 @@ const {slides = []} = Astro.props as {slides?: HeroSlide[]}
 		/>
 	</div>
     <div class="hero-slider__content">
-		<h2>Pequeñas producciones,<br> grandes ideas</h2>
+		<h2>
+			<span class="hero-slider__claim-line" data-typewriter-text="Pequeñas producciones,">Pequeñas producciones,</span><br />
+			<span class="hero-slider__claim-line" data-typewriter-text="grandes ideas">grandes ideas</span>
+		</h2>
 	</div>
 </section>
 
 <script src="/js/hero-slider.js" is:inline></script>
+<script>
+	import "../js/home-intro-gsap.js";
+</script>

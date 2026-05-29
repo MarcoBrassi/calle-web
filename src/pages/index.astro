@@ -2,6 +2,7 @@
 import { sanityClient } from 'sanity:client'
 import Layout from "../layouts/Layout.astro";
 import HeroSlider from "../components/HeroSlider.astro";
+import { sanityImageUrl } from "../utils/sanityImages";
 
 type HeroSlide = {
 	layout: 'full' | 'split'
@@ -100,7 +101,27 @@ const sanitySlides = sourceSlides?.filter((slide) => {
 	return slide.image?.src
 }) ?? []
 
-const slides = sanitySlides
+const slides = sanitySlides.map((slide) => ({
+	...slide,
+	image: slide.image
+		? {
+			...slide.image,
+			src: sanityImageUrl(slide.image.src, {
+				width: slide.layout === 'full' ? 1920 : 1200,
+				quality: slide.layout === 'full' ? 72 : 76,
+			}),
+		}
+		: slide.image,
+	secondImage: slide.secondImage
+		? {
+			...slide.secondImage,
+			src: sanityImageUrl(slide.secondImage.src, {
+				width: 1200,
+				quality: 76,
+			}),
+		}
+		: slide.secondImage,
+}))
 ---
 
 <Layout activePage="home">

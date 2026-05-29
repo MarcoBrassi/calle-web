@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro'
 import Gallery2Col from '../../components/galleries/gallery_2col.astro'
 import Gallery4Col from '../../components/galleries/gallery_4col.astro'
 import GalleryMosaic from '../../components/galleries/gallery_mosaic.astro'
+import { sanityImageUrl } from '../../utils/sanityImages'
 
 type GalleryItem = {
     type: 'image' | 'video'
@@ -85,23 +86,46 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props as { project: Project }
+const optimizeImageItem = (item: GalleryItem, isPrimary = false) => {
+    if (item.type !== 'image') {
+        return item
+    }
+
+    return {
+        ...item,
+        src: sanityImageUrl(item.src, {
+            width: isPrimary ? 1920 : 1500,
+            quality: isPrimary ? 72 : 76,
+        }) ?? item.src,
+    }
+}
+
 const coverMedia = project.coverMedia?.src
-    ? [project.coverMedia]
+    ? [optimizeImageItem(project.coverMedia, true)]
     : []
 const galleryWithoutCover = project.gallery?.filter((item) =>
     item.src && item.src !== project.coverMedia?.src
-) ?? []
+)?.map((item) => optimizeImageItem(item)) ?? []
 const galleryItems = [
     ...coverMedia,
     ...galleryWithoutCover,
 ]
+
+let mosaicImageIndex = 0
+const galleryBlocks = project.galleryBlocks?.map((block) => ({
+    ...block,
+    items: block.items?.map((item) => {
+        const isPrimary = item.type === 'image' && mosaicImageIndex++ === 0
+        return optimizeImageItem(item, isPrimary)
+    }),
+}))
 ---
 
 <Layout activePage="projects">
     {
         project.layout === 'mosaic' ? (
             <GalleryMosaic
-                blocks={project.galleryBlocks}
+                blocks={galleryBlocks}
                 title={project.title}
                 campaign={project.campaign}
                 services={project.services}

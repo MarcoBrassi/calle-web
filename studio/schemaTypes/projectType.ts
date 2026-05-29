@@ -6,11 +6,13 @@ import {
 } from '../components/MosaicBlockPreviewIcons'
 import {MosaicCoverNotice} from '../components/MosaicCoverNotice'
 import {ProjectLayoutInput} from '../components/ProjectLayoutInput'
+import {validateAllDocumentImages, validateWebpImageAsset} from './imageValidation'
 
 export const projectType = defineType({
     name: 'project',
     title: 'Proyectos',
     type: 'document',
+    validation: (rule) => rule.custom((document, context) => validateAllDocumentImages(document, context)),
     groups: [
         {name: 'content', title: 'Contenido', default: true},
         {name: 'gallery', title: 'Galería'},
@@ -144,11 +146,23 @@ export const projectType = defineType({
             defineField({
             name: 'image',
             title: 'Imagen',
+            description: 'Sube una imagen .webp de maximo 500 KB.',
             type: 'image',
             options: {
                 hotspot: true,
+                accept: 'image/webp',
             },
             hidden: ({parent}) => parent?.mediaType !== 'image',
+            validation: (rule) =>
+                rule.custom((value, context) => {
+                const parent = context.parent as {mediaType?: string} | undefined
+
+                if (parent?.mediaType !== 'image' || !value) {
+                    return true
+                }
+
+                return validateWebpImageAsset(value, context)
+                }),
             }),
 
             defineField({
@@ -170,7 +184,9 @@ export const projectType = defineType({
         group: 'settings',
         options: {
             hotspot: true,
+            accept: 'image/webp',
         },
+        validation: (rule) => rule.custom((value, context) => validateWebpImageAsset(value, context)),
         hidden: true,
         }),
 
@@ -202,11 +218,14 @@ export const projectType = defineType({
                 defineField({
                 name: 'image',
                 title: 'Imagen',
+                description: 'Sube una imagen .webp de maximo 500 KB.',
                 type: 'image',
                 options: {
                     hotspot: true,
+                    accept: 'image/webp',
                 },
-                validation: (rule) => rule.required(),
+                validation: (rule) =>
+                    rule.required().custom((value, context) => validateWebpImageAsset(value, context)),
                 }),
 
                 defineField({
@@ -354,11 +373,23 @@ export const projectType = defineType({
                         defineField({
                         name: 'image',
                         title: 'Imagen',
+                        description: 'Sube una imagen .webp de maximo 500 KB.',
                         type: 'image',
                         options: {
                             hotspot: true,
+                            accept: 'image/webp',
                         },
                         hidden: ({parent}) => parent?.mediaType !== 'image',
+                        validation: (rule) =>
+                            rule.custom((value, context) => {
+                            const parent = context.parent as {mediaType?: string} | undefined
+
+                            if (parent?.mediaType !== 'image' || !value) {
+                                return true
+                            }
+
+                            return validateWebpImageAsset(value, context)
+                            }),
                         }),
 
                         defineField({

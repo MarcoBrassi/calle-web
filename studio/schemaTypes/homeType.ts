@@ -1,6 +1,7 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {MainHomeToggleInput} from '../components/MainHomeToggleInput'
 import {SlideLayoutInput, SlideObjectInput} from '../components/SlideLayoutInput'
+import {validateAllDocumentImages, validateWebpImageAsset} from './imageValidation'
 
 const heroSlideMember = defineArrayMember({
     name: 'heroSlide',
@@ -41,11 +42,14 @@ const heroSlideMember = defineArrayMember({
     defineField({
         name: 'image',
         title: 'Imagen principal',
+        description: 'Sube una imagen en formato WEBP de máximo 500 KB.',
         type: 'image',
         options: {
         hotspot: true,
+        accept: 'image/webp',
         },
-        validation: (rule) => rule.required(),
+        validation: (rule) =>
+        rule.required().custom((value, context) => validateWebpImageAsset(value, context)),
     }),
 
     defineField({
@@ -57,9 +61,11 @@ const heroSlideMember = defineArrayMember({
     defineField({
         name: 'secondImage',
         title: 'Segunda imagen',
+        description: 'Sube una imagen .webp de maximo 500 KB.',
         type: 'image',
         options: {
         hotspot: true,
+        accept: 'image/webp',
         },
         hidden: ({parent}) => parent?.layout !== 'split',
         validation: (rule) =>
@@ -71,7 +77,7 @@ const heroSlideMember = defineArrayMember({
             }
 
             return true
-        }),
+        }).custom((value, context) => validateWebpImageAsset(value, context)),
     }),
 
     defineField({
@@ -91,6 +97,7 @@ export const homeType = defineType({
     title: 'Nuevo grupo de slides',
     isMain: false,
     },
+    validation: (rule) => rule.custom((document, context) => validateAllDocumentImages(document, context)),
     preview: {
     select: {
         title: 'title',

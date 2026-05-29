@@ -28,6 +28,7 @@
     font-size: 18px;
     letter-spacing: 1px;
     text-transform: uppercase;
+    will-change: transform, opacity;
 }
 
 .contact-page__content {
@@ -45,6 +46,7 @@
 
     .large-text {
         font-size: clamp(2.25rem, 4vw, 4rem);
+        will-change: transform, opacity;
     }
 }
 
@@ -52,6 +54,7 @@
     position: relative;
     width: fit-content;
     font-size: clamp(1.35rem, 2vw, 2rem);
+    will-change: transform, opacity;
 
     &::after {
         content: "";
@@ -86,6 +89,7 @@
     flex-direction: column;
     gap: 0;
     min-width: 0;
+    will-change: transform, opacity;
 
     label {
         position: absolute;
@@ -148,6 +152,7 @@
     line-height: 1.2;
     cursor: pointer;
     transition: transform 0.3s ease;
+    will-change: transform, opacity;
 
     &:hover {
         transform: translateX(4px);

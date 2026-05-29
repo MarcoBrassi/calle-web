@@ -17,31 +17,37 @@ const projects = await sanityClient.fetch<Project[]>(`
 ---
 
 <Layout activePage="projects">
-    <section class="projects-page">
-        <div class="project__grid">
-            <img src="/media/images/webp/AndreaCalle07.webp" alt="" class="project__grid--medium">
-            <img src="/media/images/webp/AndreaCalle16.webp" alt="" class="project__grid--large">
-            <img src="/media/images/webp/AndreaCalle13.webp" alt="" class="project__grid--small project__grid--mobile-large">
+    <section class="projects-page" data-projects-horizontal>
+        <div class="projects-page__sticky">
+            <div class="project__grid">
+                <img src="/media/images/webp/AndreaCalle07.webp" alt="" class="project__grid--medium">
 
-            <div class="project__grid-text">
-                <div>
-                    <h1>Proyectos</h1>
+                <div class="project__grid-text">
+                    <div>
+                        <h1>Proyectos</h1>
+                    </div>
+                    <div class="project__grid-text-col">
+                        <ul>
+                            {projects.map((project) => (
+                                <li class="small-text">
+                                    <a href={`/projects/${project.slug}`}>{project.title}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <div class="project__grid-text-col">
-                    <ul>
-                        {projects.map((project) => (
-                            <li class="small-text">
-                                <a href={`/projects/${project.slug}`}>{project.title}</a>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+
+                <img src="/media/images/webp/AndreaCalle13.webp" alt="" class="project__grid--small project__grid--mobile-large">
+                <img src="/media/images/webp/AndreaCalle16.webp" alt="" class="project__grid--large">
+                <video src="/media/video2.mp4" class="project__grid--medium" autoplay muted loop playsinline></video>
+                <img src="/media/images/webp/AndreaCalle03.webp" alt="" class="project__grid--large">
+                <img src="/media/images/webp/AndreaCalle09.webp" alt="" class="project__grid--small">
+                <img src="/media/images/webp/AndreaCalle17.webp" alt="" class="project__grid--small">
             </div>
-
-            <video src="/media/video2.mp4" class="project__grid--medium" autoplay muted loop playsinline></video>
-            <img src="/media/images/webp/AndreaCalle03.webp" alt="" class="project__grid--large">
-            <img src="/media/images/webp/AndreaCalle09.webp" alt="" class="project__grid--small">
-            <img src="/media/images/webp/AndreaCalle17.webp" alt="" class="project__grid--small">
         </div>
     </section>
+
+    <script>
+        import "../js/projects-horizontal-gallery-gsap.js";
+    </script>
 </Layout>
